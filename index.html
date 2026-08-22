@@ -56,6 +56,13 @@ a{color:inherit;text-decoration:none}
 }
 .nav::-webkit-scrollbar{display:none}
 .nav button{flex:none;text-transform:uppercase;letter-spacing:.14em}
+/* fade the trailing edge when the nav overflows, so a cut-off section name
+   reads as "scroll for more" rather than as hidden. Same device as the rails. */
+.nav.scrollable{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);
+          mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);
+}
+.nav.scrollable.at-end{-webkit-mask-image:none;mask-image:none}
 
 /* the six items plus the mark and contact measure about 650px, so they hold
    one line down to here. below this the nav takes its own full-width row
@@ -524,9 +531,24 @@ const frameStyle = i =>
   `background-size:cover;background-position:center`;
 
 /* ---------- nav ---------- */
-document.getElementById("nav").innerHTML =
+const nav = document.getElementById("nav");
+nav.innerHTML =
   `<button data-go="home" aria-current="false">Home</button>` +
   SECTIONS.map(s => `<button data-go="${s.id}" aria-current="false">${esc(s.name)}</button>`).join("");
+
+/* fade the trailing edge only when the nav actually overflows its row, and drop it
+   once scrolled to the end, so the cue never lingers past what it's telling you */
+(function(){
+  const sync = () => {
+    const overflowing = nav.scrollWidth > nav.clientWidth + 1;
+    nav.classList.toggle("scrollable", overflowing);
+    nav.classList.toggle("at-end", nav.scrollLeft >= nav.scrollWidth - nav.clientWidth - 2);
+  };
+  nav.addEventListener("scroll", sync, {passive:true});
+  addEventListener("resize", sync);
+  if ("ResizeObserver" in window) new ResizeObserver(sync).observe(nav);
+  sync();
+})();
 
 /* ---------- home ---------- */
 /* edit or reorder here; the marquee reads straight from this list */
