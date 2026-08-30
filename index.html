@@ -314,13 +314,18 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
 .strip.grid .f:nth-child(4){aspect-ratio:5/4;align-self:center}
 .row:hover .strip.grid .f{transform:translateY(-3px)}
 /* ---------- archive ---------- */
-/* same rhythm as the section grids, but repeating every 4 so it holds up
-   across as many rows as the archive grows to, not just the first one */
-.archivegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:0 var(--gut) var(--gut)}
-.archivegrid .f{aspect-ratio:4/5}
-.archivegrid .f:nth-child(4n+2){aspect-ratio:1/1;align-self:center}
-.archivegrid .f:nth-child(4n+3){aspect-ratio:3/4;align-self:end}
-.archivegrid .f:nth-child(4n){aspect-ratio:5/4;align-self:center}
+/* true masonry via CSS columns, not a grid: each tile keeps its own intrinsic
+   height (real photos will vary naturally), so it packs like a scrapbook
+   instead of locking everything to shared row heights */
+.archivegrid{columns:2;column-gap:14px;padding:0 var(--gut) var(--gut)}
+.archivegrid .f{width:100%;margin:0 0 14px;break-inside:avoid}
+/* placeholder-only variety so the masonry rhythm is visible before real
+   photos (which will each carry their own natural aspect ratio) go in */
+.archivegrid .f:nth-child(5n+1){aspect-ratio:4/5}
+.archivegrid .f:nth-child(5n+2){aspect-ratio:1/1}
+.archivegrid .f:nth-child(5n+3){aspect-ratio:3/4}
+.archivegrid .f:nth-child(5n+4){aspect-ratio:5/6}
+.archivegrid .f:nth-child(5n){aspect-ratio:4/3}
 .strip.rail{
   display:flex;gap:2px;overflow-x:auto;
   overscroll-behavior-x:contain;overscroll-behavior-y:auto;touch-action:pan-y pinch-zoom;
@@ -392,7 +397,6 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
   .mark{height:24px}
   .aboutinner{grid-template-columns:1fr;gap:24px}
   .fact{grid-template-columns:78px 1fr;gap:10px}
-  .archivegrid{grid-template-columns:repeat(2,1fr)}
   .cols{grid-template-columns:1fr;row-gap:22px}
   .panels{grid-template-columns:1fr;height:auto}
   .panel{width:100%;aspect-ratio:16/10}
