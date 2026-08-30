@@ -317,7 +317,7 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
 /* true masonry via CSS columns, not a grid: each tile keeps its own intrinsic
    height (real photos will vary naturally), so it packs like a scrapbook
    instead of locking everything to shared row heights */
-.archivegrid{columns:2;column-gap:14px;padding:0 var(--gut) var(--gut)}
+.archivegrid{columns:3;column-gap:14px;padding:0 var(--gut) var(--gut)}
 .archivegrid .f{width:100%;margin:0 0 14px;break-inside:avoid}
 /* placeholder-only variety so the masonry rhythm is visible before real
    photos (which will each carry their own natural aspect ratio) go in */
@@ -392,6 +392,7 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
   .panel{aspect-ratio:4/5}
   .panels:hover .panel{opacity:1}
   .panelcap{opacity:1;transform:none}
+  .archivegrid{columns:2}
 }
 @media(max-width:640px){
   .mark{height:24px}
