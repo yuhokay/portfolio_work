@@ -736,6 +736,10 @@ function dress(el, k){
 let timers = [];
 let onHome = false;
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isMobile = matchMedia("(max-width: 640px)").matches;
+/* the bottom-right pair (indices 7,8) read as nearly the same size once
+   shrunk to a small screen; widen the gap between them there only */
+const MOBILE_WIDTH_OVERRIDES = {7: 6, 8: 27};
 
 // built once and cached, so cycling() never has to re-query the DOM on every nav click
 const frags = (function buildStage(){
@@ -744,10 +748,11 @@ const frags = (function buildStage(){
   const built = [];
   const batch = document.createDocumentFragment();
   SLOTS.forEach((sl, i) => {
+    const w = isMobile && MOBILE_WIDTH_OVERRIDES[i] !== undefined ? MOBILE_WIDTH_OVERRIDES[i] : sl.w;
     const el = document.createElement("span");
     el.className = "frag behind";
     el.style.cssText =
-      `left:${sl.l}%;top:${sl.t}%;width:${sl.w}%;` +
+      `left:${sl.l}%;top:${sl.t}%;width:${w}%;` +
       `background-color:var(--strip);background-size:cover;background-position:center`;
     dress(el, i % IMGS.length);
     batch.appendChild(el);
@@ -772,7 +777,10 @@ function cycling(on){
   /* whatever is on screen is claimed, so two fragments never hold the same image */
   const inUse = new Set();
   frags.forEach((f, i) => {
-    const step = 150 + i * 43;              // every fragment on its own clock
+    // slower on mobile: real photo decode/paint per cut is heavier than the
+    // old flat-color placeholders, and phones were visibly lagging at the
+    // original pace
+    const step = (isMobile ? 320 : 150) + i * (isMobile ? 85 : 43);
     let cur = -1;
     const release = () => { if (cur >= 0) { inUse.delete(cur); cur = -1; } };
     timers.push(setInterval(() => {
