@@ -463,6 +463,8 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
 </footer>
 
 <script>
+const isMobile = matchMedia("(max-width: 640px)").matches;
+
 const ROLES = {
   ph:{label:"Photography", cls:""},
   cd:{label:"Creative direction", cls:"cd"},
@@ -560,10 +562,14 @@ const PANEL_IMGS = [
   "images/panels/Lan_Mai_BL_Website_Panel_01.webp",
   "images/panels/Bluhill_Campaign-BL-Website-Panel_01.webp"
 ];
-const frameStyle = src =>
+/* the mobile panel box (16:10) is much wider/shorter than these portrait
+   photos, so a dead-center crop can miss a face sitting in the upper
+   part of the frame. Per-panel override, mobile only; "center" elsewhere */
+const PANEL_POS_MOBILE = {2: "center 8%"}; // Highsnobiety: keep the face in frame
+const frameStyle = (src, i) =>
   `background-color:var(--strip);` +
   `background-image:url('${src}');` +
-  `background-size:cover;background-position:center`;
+  `background-size:cover;background-position:${isMobile && PANEL_POS_MOBILE[i] || "center"}`;
 
 /* ---------- nav ---------- */
 const nav = document.getElementById("nav");
@@ -613,7 +619,7 @@ const home = `
     <div class="panels">
       ${SECTIONS.map((s,si) => `
         <button class="panel" data-go="${s.id}" aria-label="${esc(s.name)}">
-          <span class="fr on" style="${frameStyle(PANEL_IMGS[si])}"></span>
+          <span class="fr on" style="${frameStyle(PANEL_IMGS[si], si)}"></span>
           <span class="panelcap">${esc(s.name)}</span>
         </button>`).join("")}
     </div>
@@ -736,7 +742,6 @@ function dress(el, k){
 let timers = [];
 let onHome = false;
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const isMobile = matchMedia("(max-width: 640px)").matches;
 /* the bottom-right pair (indices 7,8) read as nearly the same size once
    shrunk to a small screen; widen the gap between them there only */
 const MOBILE_WIDTH_OVERRIDES = {7: 6, 8: 27};
