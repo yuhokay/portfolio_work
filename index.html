@@ -529,21 +529,22 @@ SECTIONS.forEach(s => s.work.forEach(w => w.id = `${s.id}--${slug(w.t)}`));
 document.getElementById("yr").textContent = new Date().getFullYear();
 
 const IMGS = [
-  "images/stage/01.jpg",
-  "images/stage/02.jpg",
-  "images/stage/03.jpg",
-  "images/stage/04.jpg",
-  "images/stage/05.jpg",
-  "images/stage/06.jpg",
-  "images/stage/07.jpg",
-  "images/stage/08.jpg",
-  "images/stage/09.jpg"
+  "images/stage/9geek_ Main_Page_01.webp",
+  "images/stage/AJRadico_ Main_Page_01.webp",
+  "images/stage/Blühill_Campaign_ Main_Page_01.webp",
+  "images/stage/Daniel_Arsham_Studio_ Main_Page_01.webp",
+  "images/stage/DotSwoosh_Patched_Grass_Main_Page_01.webp",
+  "images/stage/LV_Sneakers_Highsnob_Mag_ Main_Page_01.webp",
+  "images/stage/Lan_Mai_ Main_Page_01.webp",
+  "images/stage/Portico_Editorial_ Main_Page_01.webp",
+  "images/stage/Prep_Editorial_ Main_Page_01.webp"
 ];
-/* Portico, Flok, Highsnobiety, Photography, Blühill */
-const PANEL_PICK = [0,5,6,7,1];
+/* Portico, Flok, Highsnobiety, Photography, Bluhill -- matched to
+   Portico_Editorial, AJRadico, LV_Sneakers_Highsnob_Mag, Lan_Mai, Bluhill_Campaign */
+const PANEL_PICK = [7,1,5,6,2];
 const frameStyle = i =>
   `background-color:var(--strip);` +
-  `background-image:url(${IMGS[((i % IMGS.length) + IMGS.length) % IMGS.length]});` +
+  `background-image:url('${IMGS[((i % IMGS.length) + IMGS.length) % IMGS.length]}');` +
   `background-size:cover;background-position:center`;
 
 /* ---------- nav ---------- */
@@ -705,12 +706,13 @@ const SLOTS = [
   {l:59, t:-2,  w: 9}, {l:74, t: 8,  w:27}, {l: 3, t:54,  w:11},
   {l:19, t:66,  w:24}, {l:49, t:60,  w: 8}, {l:66, t:56,  w:18}
 ];
-/* each fragment takes the shape of whatever image it is showing, so nothing crops */
-const RATIOS = [0.6667, 0.6663, 0.6667, 1.2259, 1.0, 1.0, 0.6667, 0.8, 0.667];
+/* each fragment takes the shape of whatever image it is showing, so nothing crops --
+   ratios computed from each image's actual pixel dimensions (width/height) */
+const RATIOS = [1.0006, 0.75, 1.4706, 0.6667, 0.7498, 1.4996, 0.667, 0.8, 1.5];
 
 function dress(el, k){
   el.style.aspectRatio = String(RATIOS[k]);
-  el.style.backgroundImage = `url(${IMGS[k]})`;
+  el.style.backgroundImage = `url('${IMGS[k]}')`;
 }
 
 let timers = [];
