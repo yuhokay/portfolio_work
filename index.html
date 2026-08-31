@@ -528,18 +528,23 @@ SECTIONS.forEach(s => s.work.forEach(w => w.id = `${s.id}--${slug(w.t)}`));
 
 document.getElementById("yr").textContent = new Date().getFullYear();
 
-/* the stage collage's own pool -- kept separate from PANEL_IMGS below so a
-   photo cycling behind the name never doubles up with one sitting still on
-   a panel */
+/* the stage collage's pool -- all 9 currently uploaded photos, since the
+   panels below are only using temporary picks from this same set until
+   dedicated panel photos are ready. Once those exist, narrow this back down
+   so a photo cycling behind the name never doubles up with one on a panel */
 const IMGS = [
   "images/stage/9geek_ Main_Page_01.webp",
+  "images/stage/AJRadico_ Main_Page_01.webp",
+  "images/stage/Blühill_Campaign_ Main_Page_01.webp",
   "images/stage/Daniel_Arsham_Studio_ Main_Page_01.webp",
   "images/stage/DotSwoosh_Patched_Grass_Main_Page_01.webp",
+  "images/stage/LV_Sneakers_Highsnob_Mag_ Main_Page_01.webp",
+  "images/stage/Lan_Mai_ Main_Page_01.webp",
+  "images/stage/Portico_Editorial_ Main_Page_01.webp",
   "images/stage/Prep_Editorial_ Main_Page_01.webp"
 ];
 /* one dedicated photo per section panel, in the same order as SECTIONS
-   (Portico, Flok, Highsnobiety, Photography, Bluhill) -- never reused in
-   the stage's IMGS pool above */
+   (Portico, Flok, Highsnobiety, Photography, Bluhill) */
 /* temporary picks from the shared stage/ folder -- swap these for dedicated
    panel photos (and move this array back to its own images/panels/ folder)
    once those are ready */
@@ -716,7 +721,7 @@ const SLOTS = [
 ];
 /* each fragment takes the shape of whatever image it is showing, so nothing crops --
    ratios computed from each image's actual pixel dimensions (width/height) */
-const RATIOS = [1.0006, 0.6667, 0.7498, 1.5];
+const RATIOS = [1.0006, 0.75, 1.4706, 0.6667, 0.7498, 1.4996, 0.667, 0.8, 1.5];
 
 function dress(el, k){
   el.style.aspectRatio = String(RATIOS[k]);
