@@ -528,23 +528,28 @@ SECTIONS.forEach(s => s.work.forEach(w => w.id = `${s.id}--${slug(w.t)}`));
 
 document.getElementById("yr").textContent = new Date().getFullYear();
 
+/* the stage collage's own pool -- kept separate from PANEL_IMGS below so a
+   photo cycling behind the name never doubles up with one sitting still on
+   a panel */
 const IMGS = [
   "images/stage/9geek_ Main_Page_01.webp",
-  "images/stage/AJRadico_ Main_Page_01.webp",
-  "images/stage/Blühill_Campaign_ Main_Page_01.webp",
   "images/stage/Daniel_Arsham_Studio_ Main_Page_01.webp",
   "images/stage/DotSwoosh_Patched_Grass_Main_Page_01.webp",
-  "images/stage/LV_Sneakers_Highsnob_Mag_ Main_Page_01.webp",
-  "images/stage/Lan_Mai_ Main_Page_01.webp",
-  "images/stage/Portico_Editorial_ Main_Page_01.webp",
   "images/stage/Prep_Editorial_ Main_Page_01.webp"
 ];
-/* Portico, Flok, Highsnobiety, Photography, Bluhill -- matched to
-   Portico_Editorial, AJRadico, LV_Sneakers_Highsnob_Mag, Lan_Mai, Bluhill_Campaign */
-const PANEL_PICK = [7,1,5,6,2];
-const frameStyle = i =>
+/* one dedicated photo per section panel, in the same order as SECTIONS
+   (Portico, Flok, Highsnobiety, Photography, Bluhill) -- never reused in
+   the stage's IMGS pool above */
+const PANEL_IMGS = [
+  "images/stage/Portico_Editorial_ Main_Page_01.webp",
+  "images/stage/AJRadico_ Main_Page_01.webp",
+  "images/stage/LV_Sneakers_Highsnob_Mag_ Main_Page_01.webp",
+  "images/stage/Lan_Mai_ Main_Page_01.webp",
+  "images/stage/Blühill_Campaign_ Main_Page_01.webp"
+];
+const frameStyle = src =>
   `background-color:var(--strip);` +
-  `background-image:url('${IMGS[((i % IMGS.length) + IMGS.length) % IMGS.length]}');` +
+  `background-image:url('${src}');` +
   `background-size:cover;background-position:center`;
 
 /* ---------- nav ---------- */
@@ -595,7 +600,7 @@ const home = `
     <div class="panels">
       ${SECTIONS.map((s,si) => `
         <button class="panel" data-go="${s.id}" aria-label="${esc(s.name)}">
-          <span class="fr on" style="${frameStyle(PANEL_PICK[si])}"></span>
+          <span class="fr on" style="${frameStyle(PANEL_IMGS[si])}"></span>
           <span class="panelcap">${esc(s.name)}</span>
         </button>`).join("")}
     </div>
@@ -708,7 +713,7 @@ const SLOTS = [
 ];
 /* each fragment takes the shape of whatever image it is showing, so nothing crops --
    ratios computed from each image's actual pixel dimensions (width/height) */
-const RATIOS = [1.0006, 0.75, 1.4706, 0.6667, 0.7498, 1.4996, 0.667, 0.8, 1.5];
+const RATIOS = [1.0006, 0.6667, 0.7498, 1.5];
 
 function dress(el, k){
   el.style.aspectRatio = String(RATIOS[k]);
