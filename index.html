@@ -537,10 +537,8 @@ SECTIONS.forEach(s => s.work.forEach(w => w.id = `${s.id}--${slug(w.t)}`));
 
 document.getElementById("yr").textContent = new Date().getFullYear();
 
-/* the stage collage's pool -- all 9 currently uploaded photos, since the
-   panels below are only using temporary picks from this same set until
-   dedicated panel photos are ready. Once those exist, narrow this back down
-   so a photo cycling behind the name never doubles up with one on a panel */
+/* the stage collage's pool -- all 9 photos, no longer overlapping with
+   PANEL_IMGS below now that the panels have their own dedicated set */
 const IMGS = [
   "images/stage/9geek_ Main_Page_01.webp",
   "images/stage/AJRadico_ Main_Page_01.webp",
@@ -553,16 +551,14 @@ const IMGS = [
   "images/stage/Prep_Editorial_ Main_Page_01.webp"
 ];
 /* one dedicated photo per section panel, in the same order as SECTIONS
-   (Portico, Flok, Highsnobiety, Photography, Bluhill) */
-/* temporary picks from the shared stage/ folder -- swap these for dedicated
-   panel photos (and move this array back to its own images/panels/ folder)
-   once those are ready */
+   (Portico, Flok, Highsnobiety, Photography, Bluhill) -- placeholder mapping
+   from filenames, tell me if any of these should swap */
 const PANEL_IMGS = [
-  "images/stage/Portico_Editorial_ Main_Page_01.webp",
-  "images/stage/AJRadico_ Main_Page_01.webp",
-  "images/stage/LV_Sneakers_Highsnob_Mag_ Main_Page_01.webp",
-  "images/stage/Lan_Mai_ Main_Page_01.webp",
-  "images/stage/Blühill_Campaign_ Main_Page_01.webp"
+  "images/panels/DotSwoosh-Touch_Grass-BL-Website-Panel_01.webp",
+  "images/panels/FLok-BL-Website-Panel_01.webp",
+  "images/panels/Kelela-Highsnobiety-BL-Website-Panel_01.webp",
+  "images/panels/Lan_Mai_BL_Website_Panel_01.webp",
+  "images/panels/Bluhill_Campaign-BL-Website-Panel_01.webp"
 ];
 const frameStyle = src =>
   `background-color:var(--strip);` +
