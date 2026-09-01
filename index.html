@@ -395,7 +395,14 @@ button.f:hover{opacity:.85}
   background:rgba(17,17,17,.92);border:0;cursor:zoom-out;
 }
 .lightbox.open{display:flex}
-.lightbox img{max-width:100%;max-height:100%;object-fit:contain}
+.lightbox img{
+  max-width:100%;max-height:100%;object-fit:contain;
+  -webkit-user-drag:none;user-select:none;-webkit-touch-callout:none;
+}
+/* CSS background images (the row thumbnails) already ignore drag/long-press
+   save gestures since they're not <img> elements; this just closes the gap
+   on the one real <img> in the lightbox. Deterrent only, not real protection --
+   the file still has to reach the browser to be shown at all. */
 .lightboxclose{
   position:absolute;top:var(--gut);right:var(--gut);z-index:1;
   background:none;border:0;color:#fff;font-family:var(--mono);
@@ -479,7 +486,7 @@ button.f:hover{opacity:.85}
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lightboxclose" aria-label="Close">Close</button>
-  <img alt="">
+  <img alt="" draggable="false">
 </div>
 
 <footer class="foot">
@@ -906,6 +913,12 @@ main.addEventListener("click", e => {
 lightbox.addEventListener("click", closeLightbox);
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeLightbox();
+});
+// deterrent only -- disables the right-click menu on real photos, but the
+// file is still fetched over a plain public URL, so this doesn't block
+// dev tools, view-source, or a screenshot
+document.addEventListener("contextmenu", e => {
+  if (e.target.closest("button.f[data-full]") || e.target.closest(".lightbox img")) e.preventDefault();
 });
 
 /* ---------- about ---------- */
