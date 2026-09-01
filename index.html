@@ -592,6 +592,10 @@ const SECTIONS = [
       {r:"ph", t:"Tommy Genesis", f:"Editorial", c:"Highsnobiety", imgs:8,
        imgFiles: [1,2,3,4,5,6,7,8].map(n => `images/Highsnobiety/Tommy Genesis/BL-Website-Tommy-Genesis_${n}.webp`),
        imgRatios: [0.6631,0.6631,0.6631,0.6631,0.6631,0.6631,0.6631,0.6631],
+       n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
+      {r:"ph", t:"Murda Beats", f:"Editorial", c:"Highsnobiety", imgs:7,
+       imgFiles: numbered("Highsnobiety/Murda Beats", "BL_Website_Highsnobiety-", [61,62,63,64,65,66,67]),
+       imgRatios: [1.5094,1.5094,0.6631,1.5094,0.6631,0.6631,0.6631],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"}
     ]
   },
@@ -775,8 +779,34 @@ const views = SECTIONS.map((s, si) => {
 }).join("");
 
 /* ---------- archive ---------- */
-/* the overflow shots that don't get a section of their own; bump this as more come in */
-const ARCHIVE_COUNT = 24;
+/* the overflow shots that don't get a section of their own -- one entry per
+   photo across every shoot in images/Archive/, in no particular grouping */
+const ARCHIVE_IMGS = [
+  ...numbered("Archive/Chief Keef Party", "BL_Website_Highsnobiety-", [28,29,30]),
+  ...numbered("Archive/Desiigner", "BL_Website_Highsnobiety-", [5,6,7]),
+  ...numbered("Archive/Jermaine Dupree", "BL_Website_Highsnobiety-", [68,69,70,71,72,73,74]),
+  ...numbered("Archive/PeeWee Longway", "BL_Website_Highsnobiety-", [8,9,10,11,12]),
+  ...numbered("Archive/Roy Woods", "BL_Website_Highsnobiety-", [2,3,4]),
+  ...numbered("Archive/Supreme Pinball", "BL_Website_Highsnobiety-", [59,60])
+];
+const ARCHIVE_RATIOS = [
+  0.6669,1.4995,0.6669,
+  0.8,0.6631,1.5094,
+  1.4995,0.8,0.81625,0.81625,0.81625,0.8,0.6631,
+  1.5094,0.6631,0.6631,0.6631,0.6631,
+  0.6631,0.6631,1.5094,
+  0.75,0.75
+];
+/* shuffled once per page load -- no fixed order, no grouping by shoot */
+const shuffle = arr => {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+const archiveOrder = shuffle(ARCHIVE_IMGS.map((_, i) => i));
 const archiveView = `
   <section class="view" id="view-archive">
     <div class="sechead">
@@ -787,7 +817,7 @@ const archiveView = `
       </div>
     </div>
     <div class="archivegrid">
-      ${Array.from({length: ARCHIVE_COUNT}, () => `<div class="f"></div>`).join("")}
+      ${archiveOrder.map(i => `<button class="f" data-full="${ARCHIVE_IMGS[i]}" aria-label="View full size" style="aspect-ratio:${ARCHIVE_RATIOS[i]};background-image:url('${ARCHIVE_IMGS[i]}');background-size:contain;background-repeat:no-repeat;background-position:center"></button>`).join("")}
     </div>
   </section>`;
 
