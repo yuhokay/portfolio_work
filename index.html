@@ -471,6 +471,12 @@ const ROLES = {
   fo:{label:"Founding", cls:"fo"}
 };
 
+// numbered(folder, prefix, nums) builds a row's real image paths from the
+// on-disk naming convention (prefix + zero-padded number), so adding a shoot
+// with real files is just this call, not 17 hand-typed paths
+const numbered = (folder, prefix, nums) =>
+  nums.map(n => `images/${folder}/${prefix}${String(n).padStart(2,"0")}.webp`);
+
 const SECTIONS = [
   {
     id:"portico", name:"Portico House", desc:"production company", stand:"Co-founder",
@@ -528,8 +534,12 @@ const SECTIONS = [
       {r:"cd", t:"Lookbook", f:"Lookbook", c:"Blühill", imgs:10, n:"Placeholder row. Swap in the lookbook.", cr:"Creative direction, photography"},
       {r:"cd", t:"Identity", f:"Brand system", c:"Blühill", imgs:6, n:"Placeholder row. Swap in the identity work.", cr:"Creative direction"},
       {r:"cd", t:"Editorials", f:"Editorial", c:"Blühill", imgs:7, n:"Placeholder row. Swap in the editorial series.", cr:"Creative direction, photography"},
-      {r:"cd", t:"Campaign 1", f:"Campaign", c:"Blühill", imgs:17, n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"},
-      {r:"cd", t:"Campaign 2", f:"Campaign", c:"Blühill", imgs:13, n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"}
+      {r:"cd", t:"Campaign 1", f:"Campaign", c:"Blühill", imgs:17,
+       imgFiles: numbered("Bluhill/Campaigns/1", "Poker_Campaign_BLUHILL_", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18]),
+       n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"},
+      {r:"cd", t:"Campaign 2", f:"Campaign", c:"Blühill", imgs:13,
+       imgFiles: numbered("Bluhill/Campaigns/2", "Tracksuit_Campaign_BLUHILL_", [1,2,3,4,5,6,7,8,9,10,11,12,13]),
+       n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"}
     ]
   }
 ];
@@ -671,7 +681,9 @@ const views = SECTIONS.map((s, si) => {
           <span class="title">${esc(w.t)}</span>${metaLine(w)}
         </button>
         <div class="strip ${w.imgs > 4 ? "rail" : "grid"}"${w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
-          ${Array.from({length:w.imgs}, () => `<div class="f"></div>`).join("")}
+          ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
+            ? `<div class="f" style="background-image:url('${w.imgFiles[fi]}');background-size:cover;background-position:center"></div>`
+            : `<div class="f"></div>`).join("")}
         </div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
       </article>`).join("")}
