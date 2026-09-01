@@ -783,10 +783,10 @@ const views = SECTIONS.map((s, si) => {
    photo across every shoot in images/Archive/, in no particular grouping */
 const ARCHIVE_IMGS = [
   ...numbered("Archive/Chief Keef Party", "BL_Website_Highsnobiety-", [28,29,30]),
-  ...numbered("Archive/Desiigner", "BL_Website_Highsnobiety-", [5,6,7]),
+  ...[5,6,7].map(n => `images/Archive/Desiigner/BL_Website_Highsnobiety-${n}.webp`),
   ...numbered("Archive/Jermaine Dupree", "BL_Website_Highsnobiety-", [68,69,70,71,72,73,74]),
-  ...numbered("Archive/PeeWee Longway", "BL_Website_Highsnobiety-", [8,9,10,11,12]),
-  ...numbered("Archive/Roy Woods", "BL_Website_Highsnobiety-", [2,3,4]),
+  ...[8,9,10,11,12].map(n => `images/Archive/PeeWee Longway/BL_Website_Highsnobiety-${n}.webp`),
+  ...[2,3,4].map(n => `images/Archive/Roy Woods/BL_Website_Highsnobiety-${n}.webp`),
   ...numbered("Archive/Supreme Pinball", "BL_Website_Highsnobiety-", [59,60])
 ];
 const ARCHIVE_RATIOS = [
