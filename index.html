@@ -342,6 +342,10 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
 .strip.rail .f:nth-child(4n+2){aspect-ratio:1/1;align-self:center}
 .strip.rail .f:nth-child(4n+3){aspect-ratio:3/4;align-self:flex-end}
 .strip.rail .f:nth-child(4n){aspect-ratio:5/4;align-self:center}
+/* real photos: same height across the whole strip, width follows each
+   photo's own aspect-ratio (set inline per frame) -- a contact sheet,
+   not the big/small rhythm used for placeholder frames */
+.strip.rail.photos .f{flex:0 0 auto;width:auto;height:clamp(170px,22vw,300px)}
 
 .row.bleed .bleedhit{display:block;width:100%;background:none;border:0;padding:0;color:inherit;cursor:pointer;position:relative;text-align:left}
 .bleedimg{width:100%;aspect-ratio:21/9;background:var(--strip);background-image:repeating-linear-gradient(135deg,rgba(120,120,120,.13) 0 1px,transparent 1px 9px)}
@@ -412,6 +416,7 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
   .strip.grid::-webkit-scrollbar{display:none}
   .strip.grid .f{flex:0 0 62%;scroll-snap-align:start;aspect-ratio:4/5!important;align-self:auto!important}
   .strip.rail .f{flex:0 0 62%}
+  .strip.rail.photos .f{flex:0 0 auto;height:clamp(130px,45vw,220px)}
   .strip.rail{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 34px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 34px),transparent)}
 }
 @media(prefers-reduced-motion:reduce){
@@ -536,9 +541,11 @@ const SECTIONS = [
       {r:"cd", t:"Editorials", f:"Editorial", c:"Blühill", imgs:7, n:"Placeholder row. Swap in the editorial series.", cr:"Creative direction, photography"},
       {r:"cd", t:"Campaign 1", f:"Campaign", c:"Blühill", imgs:17,
        imgFiles: numbered("Bluhill/Campaigns/1", "Poker_Campaign_BLUHILL_", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18]),
+       imgRatios: [0.8,0.8,0.7969,0.8,0.8,0.8,1.4706,0.8019,0.8013,0.7981,0.8069,1.4953,0.8019,0.8,0.8019,0.8,1.4967],
        n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"},
       {r:"cd", t:"Campaign 2", f:"Campaign", c:"Blühill", imgs:13,
        imgFiles: numbered("Bluhill/Campaigns/2", "Tracksuit_Campaign_BLUHILL_", [1,2,3,4,5,6,7,8,9,10,11,12,13]),
+       imgRatios: [0.8,0.8,1.4855,1.5051,0.8,0.8,1.0088,0.8,0.8,0.8069,0.8,0.8,0.8],
        n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"}
     ]
   }
@@ -680,9 +687,9 @@ const views = SECTIONS.map((s, si) => {
         <button class="head" aria-expanded="false">
           <span class="title">${esc(w.t)}</span>${metaLine(w)}
         </button>
-        <div class="strip ${w.imgs > 4 ? "rail" : "grid"}"${w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
+        <div class="strip ${w.imgs > 4 ? "rail" : "grid"}${w.imgFiles ? " photos" : ""}"${w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
           ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
-            ? `<div class="f" style="background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></div>`
+            ? `<div class="f" style="aspect-ratio:${w.imgRatios[fi]};background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></div>`
             : `<div class="f"></div>`).join("")}
         </div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
