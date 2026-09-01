@@ -342,6 +342,7 @@ button.f:hover{opacity:.85}
 .archivegrid .f:nth-child(5n+4){aspect-ratio:5/6}
 .archivegrid .f:nth-child(5n){aspect-ratio:4/3}
 .strip.rail{
+  position:relative;
   display:flex;gap:2px;overflow-x:auto;
   overscroll-behavior-x:contain;overscroll-behavior-y:auto;touch-action:pan-y pinch-zoom;
   scroll-snap-type:x proximity;cursor:grab;scrollbar-width:none;
@@ -351,6 +352,16 @@ button.f:hover{opacity:.85}
 .strip.rail::-webkit-scrollbar{display:none}
 .strip.rail.grabbing{cursor:grabbing;scroll-snap-type:none}
 .strip.rail.end{-webkit-mask-image:none;mask-image:none}
+/* "scroll for more" cue: a chevron pinned to the visible edge (not the
+   scrolling content), inverted against whatever's behind it so it reads on
+   any photo. Fades out once you've reached the actual end of the strip. */
+.railhint{
+  position:absolute;right:10px;top:50%;width:12px;height:12px;margin-top:-6px;
+  pointer-events:none;color:#fff;mix-blend-mode:difference;
+  transition:opacity .25s;z-index:2;
+}
+.railhint::before{content:"";position:absolute;inset:0;border-right:2px solid currentColor;border-top:2px solid currentColor;transform:rotate(45deg)}
+.strip.rail.end .railhint{opacity:0}
 .strip.rail .f{flex:0 0 clamp(170px,19vw,290px);scroll-snap-align:start;aspect-ratio:4/5}
 .strip.rail .f:nth-child(4n+2){aspect-ratio:1/1;align-self:center}
 .strip.rail .f:nth-child(4n+3){aspect-ratio:3/4;align-self:flex-end}
@@ -420,6 +431,16 @@ button.f:hover{opacity:.85}
   font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   cursor:pointer;padding:8px;
 }
+.lightboxnav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:1;
+  width:48px;height:48px;display:flex;align-items:center;justify-content:center;
+  background:none;border:0;color:#fff;font-size:32px;line-height:1;
+  opacity:.6;cursor:pointer;transition:opacity .18s;
+}
+.lightboxnav:hover{opacity:1}
+.lightboxnav.prev{left:var(--gut)}
+.lightboxnav.next{right:var(--gut)}
+.lightbox.single .lightboxnav{display:none}
 
 /* ---------- mobile ---------- */
 @media(max-width:900px){
@@ -497,7 +518,9 @@ button.f:hover{opacity:.85}
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lightboxclose" aria-label="Close">Close</button>
+  <button class="lightboxnav prev" aria-label="Previous image">&lsaquo;</button>
   <img alt="" draggable="false">
+  <button class="lightboxnav next" aria-label="Next image">&rsaquo;</button>
 </div>
 
 <footer class="foot">
@@ -769,6 +792,7 @@ const views = SECTIONS.map((s, si) => {
           ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
             ? `<button class="f" data-full="${w.imgFiles[fi]}" aria-label="View full size" style="aspect-ratio:${w.imgRatios[fi]};background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></button>`
             : `<div class="f"></div>`).join("")}
+          ${w.imgFiles || w.imgs > 4 ? `<span class="railhint" aria-hidden="true"></span>` : ""}
         </div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
       </article>`).join("")}
@@ -971,8 +995,22 @@ main.addEventListener("click", e => {
 /* ---------- lightbox ---------- */
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = lightbox.querySelector("img");
-function openLightbox(src){
-  lightboxImg.src = src;
+let lightboxList = [];
+let lightboxIndex = -1;
+function showLightboxAt(i){
+  if (!lightboxList.length) return;
+  lightboxIndex = (i + lightboxList.length) % lightboxList.length;
+  lightboxImg.src = lightboxList[lightboxIndex];
+}
+function openLightbox(btn){
+  // siblings within the same row's strip, or the same Archive grid --
+  // whatever group this photo visually belongs to
+  const group = btn.closest(".strip, .archivegrid");
+  lightboxList = group
+    ? [...group.querySelectorAll("button.f[data-full]")].map(b => b.dataset.full)
+    : [btn.dataset.full];
+  lightbox.classList.toggle("single", lightboxList.length <= 1);
+  showLightboxAt(lightboxList.indexOf(btn.dataset.full));
   lightbox.classList.add("open");
   lightbox.setAttribute("aria-hidden", "false");
 }
@@ -983,11 +1021,22 @@ function closeLightbox(){
 }
 main.addEventListener("click", e => {
   const btn = e.target.closest("button.f[data-full]");
-  if (btn) openLightbox(btn.dataset.full);
+  if (btn) openLightbox(btn);
 });
 lightbox.addEventListener("click", closeLightbox);
+lightbox.querySelector(".prev").addEventListener("click", e => {
+  e.stopPropagation();
+  showLightboxAt(lightboxIndex - 1);
+});
+lightbox.querySelector(".next").addEventListener("click", e => {
+  e.stopPropagation();
+  showLightboxAt(lightboxIndex + 1);
+});
 document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("open")) return;
   if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowLeft") showLightboxAt(lightboxIndex - 1);
+  if (e.key === "ArrowRight") showLightboxAt(lightboxIndex + 1);
 });
 // deterrent only -- disables the right-click menu on real photos, but the
 // file is still fetched over a plain public URL, so this doesn't block
