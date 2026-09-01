@@ -622,6 +622,10 @@ const SECTIONS = [
       {r:"ph", t:"Murda Beats", f:"Editorial", c:"Highsnobiety", imgs:7,
        imgFiles: numbered("Highsnobiety/Murda Beats", "BL_Website_Highsnobiety-", [61,62,63,64,65,66,67]),
        imgRatios: [1.5094,1.5094,0.6631,1.5094,0.6631,0.6631,0.6631],
+       n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
+      {r:"ph", t:"Kelela HS Magazine", f:"Editorial", c:"Highsnobiety", imgs:15,
+       imgFiles: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(n => `images/Highsnobiety/Kelela HS Magazine/Kelela-final-highsnobiety-bryan-luna-${n}.webp`),
+       imgRatios: [0.6669,0.6669,0.6669,0.6669,0.6669,0.6669,0.6669,0.6669,0.6669,0.6669,0.6669,0.6669,0.6669,0.6669,0.6669],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"}
     ]
   },
@@ -817,7 +821,11 @@ const ARCHIVE_IMGS = [
   ...numbered("Archive/Mist", "BL_Website_Highsnobiety-", [13,14,15,16]),
   ...[8,9,10,11,12].map(n => `images/Archive/PeeWee Longway/BL_Website_Highsnobiety-${n}.webp`),
   ...[2,3,4].map(n => `images/Archive/Roy Woods/BL_Website_Highsnobiety-${n}.webp`),
-  ...numbered("Archive/Supreme Pinball", "BL_Website_Highsnobiety-", [59,60])
+  ...numbered("Archive/Supreme Pinball", "BL_Website_Highsnobiety-", [59,60]),
+  "images/Archive/Maxo Cream/BL_Website_Highsnobiety.webp",
+  "images/Archive/Maxo Cream/BL_Website_Highsnobiety-2.webp",
+  "images/Archive/Maxo Cream/BL_Website_Highsnobiety-3.webp",
+  "images/Archive/Mor Mor/BL_Website_Highsnobiety-75.webp"
 ];
 const ARCHIVE_RATIOS = [
   0.6669,1.4995,0.6669,
@@ -826,7 +834,9 @@ const ARCHIVE_RATIOS = [
   0.6669,0.6631,0.6631,0.8,
   1.5094,0.6631,0.6631,0.6631,0.6631,
   0.6631,0.6631,1.5094,
-  0.75,0.75
+  0.75,0.75,
+  1.5094,0.8,0.8,
+  1.5094
 ];
 /* shuffled once per page load -- no fixed order, no grouping by shoot */
 const shuffle = arr => {
