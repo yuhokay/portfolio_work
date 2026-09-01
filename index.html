@@ -352,16 +352,23 @@ button.f:hover{opacity:.85}
 .strip.rail::-webkit-scrollbar{display:none}
 .strip.rail.grabbing{cursor:grabbing;scroll-snap-type:none}
 .strip.rail.end{-webkit-mask-image:none;mask-image:none}
-/* "scroll for more" cue: a chevron pinned to the visible edge (not the
-   scrolling content), inverted against whatever's behind it so it reads on
-   any photo. Fades out once you've reached the actual end of the strip. */
+/* "scroll for more" cue: a chevron pinned to the visible edge, not the
+   scrolling content. It has to live outside .strip itself -- an absolutely
+   positioned child of the scrolling element still scrolls with that
+   element's content, it doesn't stay put the way a fixed-position overlay
+   would, so it was drifting off with the rest of the row instead of
+   staying pinned to the edge. .stripwrap is the non-scrolling positioning
+   context instead, sized to match the strip since it's the only sized
+   child. Inverted via mix-blend-mode so it reads against any photo, and
+   fades out once you've reached the actual end of the strip. */
+.stripwrap{position:relative}
 .railhint{
   position:absolute;right:10px;top:50%;width:12px;height:12px;margin-top:-6px;
   pointer-events:none;color:#fff;mix-blend-mode:difference;
   transition:opacity .15s;z-index:2;
 }
 .railhint::before{content:"";position:absolute;inset:0;border-right:2px solid currentColor;border-top:2px solid currentColor;transform:rotate(45deg)}
-.strip.rail.end .railhint{opacity:0}
+.strip.rail.end + .railhint{opacity:0}
 .strip.rail .f{flex:0 0 clamp(170px,19vw,290px);scroll-snap-align:start;aspect-ratio:4/5}
 .strip.rail .f:nth-child(4n+2){aspect-ratio:1/1;align-self:center}
 .strip.rail .f:nth-child(4n+3){aspect-ratio:3/4;align-self:flex-end}
@@ -788,10 +795,12 @@ const views = SECTIONS.map((s, si) => {
         <button class="head" aria-expanded="false">
           <span class="title">${esc(w.t)}<i class="x" aria-hidden="true"></i></span>${metaLine(w)}
         </button>
-        <div class="strip ${w.imgFiles || w.imgs > 4 ? "rail" : "grid"}${w.imgFiles ? " photos" : ""}"${w.imgFiles || w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
-          ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
-            ? `<button class="f" data-full="${w.imgFiles[fi]}" aria-label="View full size" style="aspect-ratio:${w.imgRatios[fi]};background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></button>`
-            : `<div class="f"></div>`).join("")}
+        <div class="stripwrap">
+          <div class="strip ${w.imgFiles || w.imgs > 4 ? "rail" : "grid"}${w.imgFiles ? " photos" : ""}"${w.imgFiles || w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
+            ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
+              ? `<button class="f" data-full="${w.imgFiles[fi]}" aria-label="View full size" style="aspect-ratio:${w.imgRatios[fi]};background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></button>`
+              : `<div class="f"></div>`).join("")}
+          </div>
           ${w.imgFiles || w.imgs > 4 ? `<span class="railhint" aria-hidden="true"></span>` : ""}
         </div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
