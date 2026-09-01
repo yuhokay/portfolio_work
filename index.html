@@ -861,6 +861,9 @@ function show(id){
   cycling(target === "home");
   window.scrollTo({top:0});
   try { history.replaceState(null, "", target === "home" ? location.pathname : "#" + target); } catch (_) {}
+  // the view is display:none until the line above; rails inside it could
+  // only report real dimensions starting now
+  if (typeof syncRailEdges === "function") syncRailEdges();
 }
 
 document.addEventListener("click", e => {
@@ -959,8 +962,15 @@ document.addEventListener("visibilitychange", () => {
 });
 
 /* ---------- rails ---------- */
+// re-run every rail's edge check whenever a view becomes visible, since a
+// rail inside a display:none view reports 0 for both scrollWidth and
+// clientWidth -- the one-time check at setup ran before any view was shown,
+// so every rail's cue started out permanently marked "already at the end"
+const railEdges = [];
+function syncRailEdges(){ railEdges.forEach(fn => fn()); }
 document.querySelectorAll(".strip.rail").forEach(rail => {
   const edge = () => rail.classList.toggle("end", rail.scrollLeft >= rail.scrollWidth - rail.clientWidth - 4);
+  railEdges.push(edge);
   rail.addEventListener("scroll", edge, {passive:true});
   edge();
   let down=false,sx=0,sl=0,moved=0;
