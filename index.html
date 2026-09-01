@@ -749,7 +749,7 @@ const views = SECTIONS.map((s, si) => {
         <button class="head" aria-expanded="false">
           <span class="title">${esc(w.t)}<i class="x" aria-hidden="true"></i></span>${metaLine(w)}
         </button>
-        <div class="strip ${w.imgs > 4 ? "rail" : "grid"}${w.imgFiles ? " photos" : ""}"${w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
+        <div class="strip ${w.imgFiles || w.imgs > 4 ? "rail" : "grid"}${w.imgFiles ? " photos" : ""}"${w.imgFiles || w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
           ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
             ? `<button class="f" data-full="${w.imgFiles[fi]}" aria-label="View full size" style="aspect-ratio:${w.imgRatios[fi]};background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></button>`
             : `<div class="f"></div>`).join("")}
