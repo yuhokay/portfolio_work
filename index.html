@@ -682,7 +682,7 @@ const views = SECTIONS.map((s, si) => {
         </button>
         <div class="strip ${w.imgs > 4 ? "rail" : "grid"}"${w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
           ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
-            ? `<div class="f" style="background-image:url('${w.imgFiles[fi]}');background-size:cover;background-position:center"></div>`
+            ? `<div class="f" style="background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></div>`
             : `<div class="f"></div>`).join("")}
         </div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
