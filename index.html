@@ -310,6 +310,8 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
 .strip{padding:0 var(--gut) 18px}
 .strip.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
 .f{background:var(--strip);background-image:repeating-linear-gradient(135deg,rgba(120,120,120,.13) 0 1px,transparent 1px 9px);transition:transform .3s cubic-bezier(.2,.7,.3,1)}
+button.f{display:block;border:0;padding:0;margin:0;cursor:zoom-in}
+button.f:hover{opacity:.85}
 .strip.grid .f{aspect-ratio:4/5}
 .strip.grid .f:nth-child(2){aspect-ratio:1/1;align-self:center}
 .strip.grid .f:nth-child(3){aspect-ratio:3/4;align-self:end}
@@ -386,6 +388,21 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
 .foot a{border-bottom:1px solid var(--rule);padding-bottom:2px}
 .foot a:hover{color:var(--live);border-color:var(--live)}
 
+/* ---------- lightbox ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:200;display:none;
+  align-items:center;justify-content:center;padding:var(--gut);
+  background:rgba(17,17,17,.92);border:0;cursor:zoom-out;
+}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:100%;object-fit:contain}
+.lightboxclose{
+  position:absolute;top:var(--gut);right:var(--gut);z-index:1;
+  background:none;border:0;color:#fff;font-family:var(--mono);
+  font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  cursor:pointer;padding:8px;
+}
+
 /* ---------- mobile ---------- */
 @media(max-width:900px){
   .cols{grid-template-columns:repeat(2,1fr);grid-template-rows:none;row-gap:26px;column-gap:var(--gut);padding:16px var(--gut) 20px}
@@ -459,6 +476,11 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
 </div>
 
 <main id="main"></main>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightboxclose" aria-label="Close">Close</button>
+  <img alt="">
+</div>
 
 <footer class="foot">
   <span>Bryan Luna, New York</span>
@@ -689,7 +711,7 @@ const views = SECTIONS.map((s, si) => {
         </button>
         <div class="strip ${w.imgs > 4 ? "rail" : "grid"}${w.imgFiles ? " photos" : ""}"${w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
           ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
-            ? `<div class="f" style="aspect-ratio:${w.imgRatios[fi]};background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></div>`
+            ? `<button class="f" data-full="${w.imgFiles[fi]}" aria-label="View full size" style="aspect-ratio:${w.imgRatios[fi]};background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></button>`
             : `<div class="f"></div>`).join("")}
         </div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
@@ -862,6 +884,28 @@ main.addEventListener("click", e => {
     r.querySelector(".head,.bleedhit").setAttribute("aria-expanded","false");
   });
   hit.setAttribute("aria-expanded", row.classList.toggle("open"));
+});
+
+/* ---------- lightbox ---------- */
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = lightbox.querySelector("img");
+function openLightbox(src){
+  lightboxImg.src = src;
+  lightbox.classList.add("open");
+  lightbox.setAttribute("aria-hidden", "false");
+}
+function closeLightbox(){
+  lightbox.classList.remove("open");
+  lightbox.setAttribute("aria-hidden", "true");
+  lightboxImg.src = "";
+}
+main.addEventListener("click", e => {
+  const btn = e.target.closest("button.f[data-full]");
+  if (btn) openLightbox(btn.dataset.full);
+});
+lightbox.addEventListener("click", closeLightbox);
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeLightbox();
 });
 
 /* ---------- about ---------- */
