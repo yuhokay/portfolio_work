@@ -380,13 +380,7 @@ button.f:hover{opacity:.85}
 
 .row.bleed .bleedhit{display:block;width:100%;background:none;border:0;padding:0;color:inherit;cursor:pointer;position:relative;text-align:left}
 .bleedimg{width:100%;aspect-ratio:21/9;background:var(--strip);background-image:repeating-linear-gradient(135deg,rgba(120,120,120,.13) 0 1px,transparent 1px 9px)}
-.bleedtitle{
-  position:absolute;left:var(--gut);bottom:.1em;z-index:1;
-  font-family:var(--display);font-weight:800;
-  font-size:clamp(28px,5.2vw,74px);line-height:.9;letter-spacing:-.035em;
-  text-transform:uppercase;color:#FFF;mix-blend-mode:difference;pointer-events:none;
-}
-.bleedbar{padding:11px var(--gut) 12px}
+.bleedbar{display:grid;grid-template-columns:1fr auto;gap:6px var(--gut);align-items:baseline;padding:11px var(--gut) 12px}
 
 .more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .34s cubic-bezier(.3,.8,.3,1)}
 .row.open .more{grid-template-rows:1fr}
@@ -781,12 +775,12 @@ const home = `
   </section>`;
 
 /* ---------- section views ---------- */
-const metaLine = w => `
+const metaLine = (w, opts = {}) => `
   <span class="meta">
     <span class="role"><i class="tick ${ROLES[w.r].cls}"></i>${ROLES[w.r].label}</span>
     <span class="sep">/</span><span>${esc(w.f)}</span>
     <span class="sep">/</span><span>${esc(w.c)}</span>
-    <span class="sep">/</span><span>${pad(w.imgs)} ${w.imgs === 1 ? "frame" : "frames"}</span>
+    ${opts.noFrames ? "" : `<span class="sep">/</span><span>${pad(w.imgs)} ${w.imgs === 1 ? "frame" : "frames"}</span>`}
   </span>`;
 
 const views = SECTIONS.map((s, si) => {
@@ -805,9 +799,8 @@ const views = SECTIONS.map((s, si) => {
       <article class="row bleed" id="${w.id}">
         <button class="bleedhit" aria-expanded="false">
           <div class="bleedimg"></div>
-          <span class="bleedtitle">${esc(w.t)}</span>
         </button>
-        <div class="bleedbar">${metaLine(w)}</div>
+        <div class="bleedbar"><span class="title">${esc(w.t)}</span>${metaLine(w, {noFrames:true})}</div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
       </article>` : `
       <article class="row" id="${w.id}">
