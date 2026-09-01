@@ -296,6 +296,17 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
   font-size:clamp(17px,1.9vw,26px);line-height:1.06;letter-spacing:-.022em;
   text-transform:uppercase;transition:color .18s;
 }
+/* same plus/minus device as the About drawer, so "this expands" reads the
+   same way everywhere on the site instead of being a hidden click target */
+.title .x{
+  width:11px;height:11px;margin-left:10px;position:relative;
+  display:inline-block;vertical-align:middle;color:var(--mute);transition:color .18s;
+}
+.title .x::before,.title .x::after{content:"";position:absolute;background:currentColor;transition:transform .3s cubic-bezier(.3,.8,.3,1)}
+.title .x::before{left:0;top:5px;width:11px;height:1px}
+.title .x::after{top:0;left:5px;width:1px;height:11px}
+.head[aria-expanded="true"] .title .x::after{transform:scaleY(0)}
+.head:hover .title .x{color:var(--live)}
 .meta{
   display:flex;gap:9px;align-items:center;flex-wrap:wrap;
   font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;
@@ -714,7 +725,7 @@ const views = SECTIONS.map((s, si) => {
       </article>` : `
       <article class="row" id="${w.id}">
         <button class="head" aria-expanded="false">
-          <span class="title">${esc(w.t)}</span>${metaLine(w)}
+          <span class="title">${esc(w.t)}<i class="x" aria-hidden="true"></i></span>${metaLine(w)}
         </button>
         <div class="strip ${w.imgs > 4 ? "rail" : "grid"}${w.imgFiles ? " photos" : ""}"${w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
           ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
