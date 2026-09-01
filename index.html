@@ -358,7 +358,7 @@ button.f:hover{opacity:.85}
 .railhint{
   position:absolute;right:10px;top:50%;width:12px;height:12px;margin-top:-6px;
   pointer-events:none;color:#fff;mix-blend-mode:difference;
-  transition:opacity .25s;z-index:2;
+  transition:opacity .15s;z-index:2;
 }
 .railhint::before{content:"";position:absolute;inset:0;border-right:2px solid currentColor;border-top:2px solid currentColor;transform:rotate(45deg)}
 .strip.rail.end .railhint{opacity:0}
@@ -971,6 +971,8 @@ document.querySelectorAll(".strip.rail").forEach(rail => {
   rail.addEventListener("pointermove", e => {
     if(!down)return;
     const d=e.clientX-sx; moved=Math.max(moved,Math.abs(d)); rail.scrollLeft=sl-d;
+    edge(); // don't wait on the native scroll event, which can lag behind a
+            // programmatic scrollLeft write during a fast drag
   });
   const stop=()=>{down=false;rail.classList.remove("grabbing")};
   rail.addEventListener("pointerup",stop);
