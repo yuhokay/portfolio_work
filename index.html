@@ -572,7 +572,7 @@ const SECTIONS = [
     note:"A music and culture platform I co-founded. Long-form features on artists, written and shot the way we'd want to be covered ourselves.",
     disciplines:["Editorial Direction","Creative Direction","Production","Video","Platform"],
     work:[
-      {r:"cd", t:"Artist features", f:"Editorial", c:"Flok", imgs:6, bannerImg:"images/Flok/Banner/Untitled-3.webp", n:"Placeholder. Long-form features in Flok's cinematic, narrative voice.", cr:"Editorial direction"},
+      {r:"cd", t:"Artist features", f:"Editorial", c:"Flok", imgs:6, bannerImg:"images/Flok/Banner/Untitled-3.webp", bannerPos:"30%", n:"Placeholder. Long-form features in Flok's cinematic, narrative voice.", cr:"Editorial direction"},
       {r:"cd", t:"1of1Soldier", f:"Editorial", c:"Flok", imgs:8,
        imgFiles: ["01","02","03","04&5","06","07","09","10"].map(n => `images/Flok/1of1Soldier/1of1Soldier_Flok_Cover_${n}.webp`),
        imgRatios: [0.800625,0.800625,0.8,1.49813,0.8,0.8,0.800625,0.8],
@@ -802,7 +802,7 @@ const views = SECTIONS.map((s, si) => {
     ${s.work.map((w,i) => i === 0 ? `
       <article class="row bleed" id="${w.id}">
         <button class="bleedhit" aria-expanded="false">
-          <div class="bleedimg"${w.bannerImg ? ` style="background-image:url('${w.bannerImg}');background-size:cover;background-position:center"` : ""}></div>
+          <div class="bleedimg"${w.bannerImg ? ` style="background-image:url('${w.bannerImg}');background-size:cover;background-position:center ${w.bannerPos || "50%"}"` : ""}></div>
         </button>
         <div class="bleedbar"><span class="title">${esc(w.t)}</span>${metaLine(w, {noFrames:true})}</div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
