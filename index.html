@@ -381,6 +381,17 @@ button.f:hover{opacity:.85}
    photo's own aspect-ratio (set inline per frame) -- a contact sheet,
    not the big/small rhythm used for placeholder frames */
 .strip.rail.photos .f{flex:0 0 auto;width:auto;height:clamp(170px,22vw,300px)}
+.f.video{position:relative}
+.f.video .playicon{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:44px;height:44px;border-radius:50%;background:rgba(17,17,17,.55);
+  display:flex;align-items:center;justify-content:center;pointer-events:none;
+}
+.f.video .playicon::before{
+  content:"";width:0;height:0;margin-left:3px;
+  border-style:solid;border-width:8px 0 8px 13px;
+  border-color:transparent transparent transparent #fff;
+}
 
 .row.bleed .bleedhit{display:block;width:100%;background:none;border:0;padding:0;color:inherit;cursor:pointer;position:relative;text-align:left}
 .bleedimg{width:100%;aspect-ratio:21/9;background:var(--strip);background-image:repeating-linear-gradient(135deg,rgba(120,120,120,.13) 0 1px,transparent 1px 9px)}
@@ -426,6 +437,10 @@ button.f:hover{opacity:.85}
 .lightbox img{
   max-width:100%;max-height:100%;object-fit:contain;
   -webkit-user-drag:none;user-select:none;-webkit-touch-callout:none;
+}
+.lightbox iframe.lightboxvideo{
+  display:none;width:min(92vw,1200px);max-width:100%;max-height:100%;
+  aspect-ratio:16/9;border:0;cursor:auto;
 }
 /* CSS background images (the row thumbnails) already ignore drag/long-press
    save gestures since they're not <img> elements; this just closes the gap
@@ -532,6 +547,7 @@ button.f:hover{opacity:.85}
   <button class="lightboxclose" aria-label="Close">Close</button>
   <button class="lightboxnav prev" aria-label="Previous image">&lsaquo;</button>
   <img alt="" draggable="false">
+  <iframe class="lightboxvideo" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen frameborder="0"></iframe>
   <button class="lightboxnav next" aria-label="Next image">&rsaquo;</button>
 </div>
 
@@ -577,9 +593,13 @@ const SECTIONS = [
        imgFiles: ["LanMai","Lan_Mai_Finals_JPEGs","Lan_Mai_Finals_JPEGs-2","Lan_Mai_Finals_JPEGs-3","Lan_Mai_Finals_JPEGs-4","Lan_Mai_Finals_JPEGs-5","Lan_Mai_Finals_JPEGs-6","Lan_Mai_Finals_JPEGs-7","Lan_Mai_Finals_JPEGs-8","Lan_Mai_Finals_JPEGs-9","Lan_Mai_Finals_JPEGs-10","Lan_Mai_Finals_JPEGs-11","Lan_Mai_Finals_JPEGs-12","Lan_Mai_Finals_JPEGs-13","Lan_Mai_Finals_JPEGs-14"].map(n => `images/Portico House/Lan Mai Campaign/${n}.webp`),
        imgRatios: [0.704375,0.69875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
-      {r:"ph", t:"Ralph Lauren", f:"Campaign", c:"Brand", imgs:6, n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
+      {r:"ph", t:"Ralph Lauren", f:"Campaign", c:"Brand", imgs:6,
+       videos: [{id:"1037868188", thumb:"images/Portico House/Ralph Lauren/RalphLauren_Video_Thumb.webp", ratio:1.77778}],
+       n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
       {r:"ph", t:"Coca-Cola", f:"Campaign", c:"via Ogilvy", imgs:4, n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
-      {r:"ph", t:"American Express", f:"Campaign", c:"Brand", imgs:3, n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
+      {r:"ph", t:"American Express", f:"Campaign", c:"Brand", imgs:3,
+       videos: [{id:"1037863448", thumb:"images/Portico House/American Express/AmericanExpress_Video_Thumb.webp", ratio:1.77778}],
+       n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
       {r:"cd", t:"Loves All Gone", f:"Music video", c:"SeenCJ / Three Times Louder", imgs:8, n:"One-shot concept across three spaces: restaurant, chill room, party room. Shot digital on FX6, clean with a touch of grain in post.", cr:"Creative direction, treatment, shot list"},
       {r:"ph", t:"Equinox", f:"Campaign", c:"Brand", imgs:7, n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
       {r:"cd", t:"Have You Seen CJ?", f:"Campaign", c:"SeenCJ / Three Times Louder", imgs:5, n:"Full project rollout. Trailers, cover art, and press images built around a single recurring question.", cr:"Creative direction, art direction, production"},
@@ -835,12 +855,16 @@ const views = SECTIONS.map((s, si) => {
           <span class="title">${esc(w.t)}<i class="x" aria-hidden="true"></i></span>${metaLine(w)}
         </button>
         <div class="stripwrap">
-          <div class="strip ${w.imgFiles || w.imgs > 4 ? "rail" : "grid"}${w.imgFiles ? " photos" : ""}"${w.imgFiles || w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
-            ${Array.from({length:w.imgs}, (_, fi) => w.imgFiles
-              ? `<button class="f" data-full="${w.imgFiles[fi]}" aria-label="View full size" style="aspect-ratio:${w.imgRatios[fi]};background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></button>`
-              : `<div class="f"></div>`).join("")}
+          <div class="strip ${w.imgFiles || w.videos || w.imgs > 4 ? "rail" : "grid"}${w.imgFiles || w.videos ? " photos" : ""}"${w.imgFiles || w.videos || w.imgs > 4 ? ` tabindex="0" role="region" aria-label="${esc(w.t)}, ${w.imgs} frames, scroll horizontally"` : ""}>
+            ${Array.from({length:w.imgs}, (_, fi) => {
+              if (w.imgFiles && w.imgFiles[fi]) return `<button class="f" data-full="${w.imgFiles[fi]}" aria-label="View full size" style="aspect-ratio:${w.imgRatios[fi]};background-image:url('${w.imgFiles[fi]}');background-size:contain;background-repeat:no-repeat;background-position:center"></button>`;
+              const vi = fi - (w.imgFiles ? w.imgFiles.length : 0);
+              const v = w.videos && w.videos[vi];
+              if (v) return `<button class="f video" data-video="${v.id}" aria-label="Play video" style="aspect-ratio:${v.ratio};background-image:url('${v.thumb}');background-size:contain;background-repeat:no-repeat;background-position:center"><span class="playicon" aria-hidden="true"></span></button>`;
+              return `<div class="f"></div>`;
+            }).join("")}
           </div>
-          ${w.imgFiles || w.imgs > 4 ? `<span class="railhint" aria-hidden="true"></span>` : ""}
+          ${w.imgFiles || w.videos || w.imgs > 4 ? `<span class="railhint" aria-hidden="true"></span>` : ""}
         </div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
       </article>`).join("")}
@@ -1063,22 +1087,38 @@ main.addEventListener("click", e => {
 /* ---------- lightbox ---------- */
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = lightbox.querySelector("img");
+const lightboxVideo = lightbox.querySelector(".lightboxvideo");
 let lightboxList = [];
 let lightboxIndex = -1;
+// each item is either {full} for a photo or {video} for a Vimeo id -- the
+// group can mix both, e.g. a video thumbnail alongside real photos in a rail
+const itemFor = btn => btn.dataset.video ? {video: btn.dataset.video} : {full: btn.dataset.full};
 function showLightboxAt(i){
   if (!lightboxList.length) return;
   lightboxIndex = (i + lightboxList.length) % lightboxList.length;
-  lightboxImg.src = lightboxList[lightboxIndex];
+  const item = lightboxList[lightboxIndex];
+  if (item.video) {
+    lightboxImg.style.display = "none";
+    lightboxImg.src = "";
+    lightboxVideo.style.display = "block";
+    lightboxVideo.src = `https://player.vimeo.com/video/${item.video}?autoplay=1&title=0&byline=0&portrait=0`;
+  } else {
+    lightboxVideo.style.display = "none";
+    lightboxVideo.src = "";
+    lightboxImg.style.display = "block";
+    lightboxImg.src = item.full;
+  }
 }
 function openLightbox(btn){
   // siblings within the same row's strip, or the same Archive grid --
   // whatever group this photo visually belongs to
   const group = btn.closest(".strip, .archivegrid");
   lightboxList = group
-    ? [...group.querySelectorAll("button.f[data-full]")].map(b => b.dataset.full)
-    : [btn.dataset.full];
+    ? [...group.querySelectorAll("button.f[data-full], button.f[data-video]")].map(itemFor)
+    : [itemFor(btn)];
   lightbox.classList.toggle("single", lightboxList.length <= 1);
-  showLightboxAt(lightboxList.indexOf(btn.dataset.full));
+  const target = itemFor(btn);
+  showLightboxAt(lightboxList.findIndex(it => target.video ? it.video === target.video : it.full === target.full));
   lightbox.classList.add("open");
   lightbox.setAttribute("aria-hidden", "false");
 }
@@ -1086,9 +1126,10 @@ function closeLightbox(){
   lightbox.classList.remove("open");
   lightbox.setAttribute("aria-hidden", "true");
   lightboxImg.src = "";
+  lightboxVideo.src = "";
 }
 main.addEventListener("click", e => {
-  const btn = e.target.closest("button.f[data-full]");
+  const btn = e.target.closest("button.f[data-full], button.f[data-video]");
   if (btn) openLightbox(btn);
 });
 lightbox.addEventListener("click", closeLightbox);
