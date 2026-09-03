@@ -427,6 +427,26 @@ button.f:hover{opacity:.85}
 .foot a{border-bottom:1px solid var(--rule);padding-bottom:2px}
 .foot a:hover{color:var(--live);border-color:var(--live)}
 
+/* ---------- back to top ---------- */
+/* invisible until scrolled, and quiet even then -- a faint disc that only
+   asks for attention on hover, never sits on top of the page uninvited */
+.totop{
+  position:fixed;right:var(--gut);bottom:var(--gut);z-index:60;
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--rule);background:rgba(255,255,255,.5);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  color:var(--ink);opacity:0;transform:translateY(6px);
+  pointer-events:none;transition:opacity .25s,transform .25s,border-color .18s,color .18s;
+}
+.totop.show{opacity:.55;transform:translateY(0);pointer-events:auto}
+.totop:hover{opacity:1;color:var(--live);border-color:var(--live)}
+.totoparrow{
+  width:9px;height:9px;margin-top:3px;
+  border-top:2px solid currentColor;border-right:2px solid currentColor;
+  transform:rotate(-45deg);
+}
+
 /* ---------- lightbox ---------- */
 .lightbox{
   position:fixed;inset:0;z-index:200;display:none;
@@ -558,6 +578,8 @@ button.f:hover{opacity:.85}
   <a href="mailto:bryan@portico.house">bryan@portico.house</a>
   <span style="margin-left:auto">&copy; <span id="yr"></span> Bryan Luna. All rights reserved.</span>
 </footer>
+
+<button class="totop" aria-label="Back to top"><span class="totoparrow" aria-hidden="true"></span></button>
 
 <script>
 const isMobile = matchMedia("(max-width: 640px)").matches;
@@ -1277,6 +1299,13 @@ lightbox.addEventListener("touchend", e => {
 document.addEventListener("contextmenu", e => {
   if (e.target.closest("button.f[data-full]") || e.target.closest(".lightbox img")) e.preventDefault();
 });
+
+/* ---------- back to top ---------- */
+const totop = document.querySelector(".totop");
+window.addEventListener("scroll", () => {
+  totop.classList.toggle("show", window.scrollY > window.innerHeight * 0.6);
+}, {passive:true});
+totop.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
 
 /* ---------- about ---------- */
 const about = document.getElementById("about");
