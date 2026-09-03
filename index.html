@@ -431,8 +431,8 @@ button.f:hover{opacity:.85}
 /* invisible until scrolled, and quiet even then -- a faint disc that only
    asks for attention on hover, never sits on top of the page uninvited */
 .totop{
-  position:fixed;right:var(--gut);bottom:var(--gut);z-index:60;
-  width:42px;height:42px;border-radius:50%;
+  position:fixed;right:calc(var(--gut) - 2mm);bottom:var(--gut);z-index:60;
+  width:42px;height:42px;border-radius:0;
   border:1px solid var(--rule);background:rgba(255,255,255,.5);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   display:flex;align-items:center;justify-content:center;cursor:pointer;
