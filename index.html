@@ -479,6 +479,7 @@ button.f:hover{opacity:.85}
 }
 @media(max-width:640px){
   .mark{height:24px}
+  .lightboxnav{width:64px;height:96px;opacity:.8}
   .aboutinner{grid-template-columns:1fr;gap:24px}
   .aboutbio{grid-template-columns:1fr}
   .aboutart{max-width:220px;justify-self:start;align-self:start;transform:none}
@@ -935,18 +936,31 @@ const navBtns = [...document.querySelectorAll("#nav button")];
 const viewEls = [...main.querySelectorAll(".view")];
 const viewIds = new Set(["home", "archive", ...SECTIONS.map(s => s.id)]);
 
-function show(id){
+function renderView(id){
   const target = viewIds.has(id) ? id : "home";
   const targetEl = "view-" + target;
   viewEls.forEach(v => v.classList.toggle("on", v.id === targetEl));
   navBtns.forEach(b => b.setAttribute("aria-current", String(b.dataset.go === target)));
   cycling(target === "home");
   window.scrollTo({top:0});
-  try { history.replaceState(null, "", target === "home" ? location.pathname : "#" + target); } catch (_) {}
   // the view is display:none until the line above; rails inside it could
   // only report real dimensions starting now
   if (typeof syncRailEdges === "function") syncRailEdges();
+  return target;
 }
+// pushes a new history entry per section visited, so a phone's (or browser's)
+// back button steps back through the sections actually visited instead of
+// leaving the site immediately -- popstate below handles the back/forward press
+function show(id){
+  const target = renderView(id);
+  try { history.pushState({section:target}, "", target === "home" ? location.pathname : "#" + target); } catch (_) {}
+}
+window.addEventListener("popstate", e => {
+  // the lightbox owns the most recent history entry while it's open, so a
+  // back press closes it first rather than also changing section underneath
+  if (lightbox.classList.contains("open")) { closeLightboxUI(); return; }
+  renderView(location.hash ? location.hash.slice(1) : "home");
+});
 
 document.addEventListener("click", e => {
   const go = e.target.closest("[data-go]");
@@ -1111,6 +1125,16 @@ function showLightboxAt(i){
     lightboxImg.src = item.full;
   }
 }
+function openLightboxUI(){
+  lightbox.classList.add("open");
+  lightbox.setAttribute("aria-hidden", "false");
+}
+function closeLightboxUI(){
+  lightbox.classList.remove("open");
+  lightbox.setAttribute("aria-hidden", "true");
+  lightboxImg.src = "";
+  lightboxVideo.src = "";
+}
 function openLightbox(btn){
   // siblings within the same row's strip, or the same Archive grid --
   // whatever group this photo visually belongs to
@@ -1121,14 +1145,17 @@ function openLightbox(btn){
   lightbox.classList.toggle("single", lightboxList.length <= 1);
   const target = itemFor(btn);
   showLightboxAt(lightboxList.findIndex(it => target.video ? it.video === target.video : it.full === target.full));
-  lightbox.classList.add("open");
-  lightbox.setAttribute("aria-hidden", "false");
+  openLightboxUI();
+  // push a history entry so a phone's back gesture/button closes the lightbox
+  // first, instead of leaving the section (or the site) behind it
+  try { history.pushState({lightbox:true}, "", location.href); } catch (_) {}
 }
 function closeLightbox(){
-  lightbox.classList.remove("open");
-  lightbox.setAttribute("aria-hidden", "true");
-  lightboxImg.src = "";
-  lightboxVideo.src = "";
+  // if we pushed a history entry for this open, undo it properly so the
+  // back stack doesn't accumulate a dead entry -- closeLightboxUI() then
+  // runs from the resulting popstate, not from here
+  if (history.state && history.state.lightbox) history.back();
+  else closeLightboxUI();
 }
 main.addEventListener("click", e => {
   const btn = e.target.closest("button.f[data-full], button.f[data-video]");
@@ -1149,6 +1176,23 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowLeft") showLightboxAt(lightboxIndex - 1);
   if (e.key === "ArrowRight") showLightboxAt(lightboxIndex + 1);
 });
+// swipe left/right to move between frames on touch devices -- mirrors the
+// prev/next buttons, which are a small target to hit precisely on mobile
+let lbTouchX = null, lbTouchY = null;
+lightbox.addEventListener("touchstart", e => {
+  if (e.touches.length !== 1) return;
+  lbTouchX = e.touches[0].clientX;
+  lbTouchY = e.touches[0].clientY;
+}, {passive:true});
+lightbox.addEventListener("touchend", e => {
+  if (lbTouchX === null) return;
+  const dx = e.changedTouches[0].clientX - lbTouchX;
+  const dy = e.changedTouches[0].clientY - lbTouchY;
+  lbTouchX = lbTouchY = null;
+  if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+    showLightboxAt(lightboxIndex + (dx < 0 ? 1 : -1));
+  }
+}, {passive:true});
 // deterrent only -- disables the right-click menu on real photos, but the
 // file is still fetched over a plain public URL, so this doesn't block
 // dev tools, view-source, or a screenshot
@@ -1171,7 +1215,12 @@ aboutBtn.addEventListener("click", () =>
   else addEventListener("resize", sync);
 })();
 
-show(location.hash.slice(1) || "home");
+// initial paint replaces (rather than pushes) so the very first history
+// entry matches wherever the browser actually landed
+{
+  const initial = renderView(location.hash.slice(1) || "home");
+  try { history.replaceState({section:initial}, "", initial === "home" ? location.pathname : "#" + initial); } catch (_) {}
+}
 </script>
 </body>
 </html>
