@@ -694,8 +694,17 @@ const SECTIONS = [
     disciplines:["Creative Direction","Photography","Editorial","Portraits"],
     work:[
       {r:"ph", t:"Editorial series", f:"Editorial", c:"Self-initiated", imgs:8, bannerImg:"images/Photography/Banner/Cameras.webp", n:"Placeholder row. Swap in a real editorial.", cr:"Creative direction, photography"},
-      {r:"ph", t:"Portraits", f:"Portraits", c:"Self-initiated", imgs:6, n:"Placeholder row. Swap in a real series.", cr:"Photography"},
-      {r:"ph", t:"Studio shoot", f:"Creative shoot", c:"Self-initiated", imgs:5, n:"Placeholder row. Swap in a real shoot.", cr:"Creative direction, photography"}
+      {r:"ph", t:"Jessica", f:"Portraits", c:"Self-initiated", imgs:36,
+       imgFiles: ["01","02","03","04","05","06","07"].map(n => `images/Photography/Jessica/Final_Scan_${n}.webp`)
+         .concat("images/Photography/Jessica/Jessica_Finals.webp")
+         .concat(["2","3","4","5","6","7","8","9","10","11","13","14","15","16","17","18","20","21","22","23","24","25","26","27","28","29","31","33"].map(n => `images/Photography/Jessica/Jessica_Finals-${n}.webp`)),
+       imgRatios: [0.8,0.8,0.8,0.8,0.799375,0.8,0.8, 0.8, 0.8,0.8,0.666875,0.7725,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8],
+       n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
+      {r:"ph", t:"AJ Radico, Transit Album Cover", f:"Creative shoot", c:"Self-initiated", imgs:10,
+       imgFiles: ["1","2","3","4"].map(n => `images/Photography/AJRadico - Transit Album Cover/${n}.webp`)
+         .concat(["03","04","05","06","07","08"].map(n => `images/Photography/AJRadico - Transit Album Cover/AJRadico-EP-Cover-Shoot-${n}.webp`)),
+       imgRatios: [1,1,1,1,1,1,1,1,1,1],
+       n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"}
     ]
   },
   {
@@ -891,7 +900,21 @@ const ARCHIVE_IMGS = [
   "images/Archive/Maxo Cream/BL_Website_Highsnobiety.webp",
   "images/Archive/Maxo Cream/BL_Website_Highsnobiety-2.webp",
   "images/Archive/Maxo Cream/BL_Website_Highsnobiety-3.webp",
-  "images/Archive/Mor Mor/BL_Website_Highsnobiety-75.webp"
+  "images/Archive/Mor Mor/BL_Website_Highsnobiety-75.webp",
+  ...[1,2,3,4,5,6,7,8,9].map(n => `images/Archive/Europe/euro-trip-${n}.webp`),
+  ...["v2-1","v2-2","v3-1","v3-2"].map(n => `images/Archive/LORE - Interior/LORE-Interior-Design-Finals-${n}.webp`),
+  "images/Archive/Random/Cloudy-Sky.webp",
+  "images/Archive/Random/Portico-House-Fun.webp",
+  "images/Archive/Random/SAVFORWEB_Shoot_01.webp",
+  "images/Archive/Random/SAVFORWEB_Shoot_02.webp",
+  "images/Archive/Random/Scanned-Daniela-Manga.webp",
+  "images/Archive/Random/Studio-White.webp",
+  "images/Archive/Random/Zac-Noah-Lonewolf-Doc.webp",
+  "images/Archive/Random/linked-in.webp",
+  "images/Archive/Random/longexpo-7.webp",
+  "images/Archive/Random/portico-house-flight-club-deck-image.webp",
+  "images/Archive/Random/portico-house-flight-club-image-03.webp",
+  "images/Archive/Random/portico-house-flight-club-image-14.webp"
 ];
 const ARCHIVE_RATIOS = [
   0.6669,1.4995,0.6669,
@@ -902,7 +925,10 @@ const ARCHIVE_RATIOS = [
   0.6631,0.6631,1.5094,
   0.75,0.75,
   1.5094,0.8,0.8,
-  1.5094
+  1.5094,
+  0.81625,0.8,0.81625,0.81625,0.81625,0.81625,0.81625,0.81625,0.81625,
+  0.666875,0.666875,0.666875,0.666875,
+  0.8,0.8,0.79875,0.798125,0.8,1.77778,1.77778,0.815625,0.8,1.77778,1.77778,1.49953
 ];
 /* shuffled once per page load -- no fixed order, no grouping by shoot */
 const shuffle = arr => {
