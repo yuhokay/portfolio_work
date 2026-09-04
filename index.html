@@ -759,6 +759,10 @@ const SECTIONS = [
          1.49953,1.49953,
          1.49813,1.49813,1.49813
        ],
+       n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
+      {r:"ph", t:"Adidas Pharrell US Open", f:"Editorial", c:"Highsnobiety", imgs:8,
+       imgFiles: ["01","02","05","19","24","29","instagram-01","instagram-02"].map(n => `images/Highsnobiety/Adidas Pharrell US Open/adidas-pharrell-us-open-highsnobiety-${n}.webp`),
+       imgRatios: [1.49813,1.49813,1.49813,1.49813,0.666875,1.49813,0.8,0.8],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"}
     ]
   },
@@ -778,7 +782,11 @@ const SECTIONS = [
        imgFiles: ["1","2","3","4"].map(n => `images/Photography/AJRadico - Transit Album Cover/${n}.webp`)
          .concat(["03","04","05","06","07","08"].map(n => `images/Photography/AJRadico - Transit Album Cover/AJRadico-EP-Cover-Shoot-${n}.webp`)),
        imgRatios: [1,1,1,1,1,1,1,1,1,1],
-       n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"}
+       n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"},
+      {r:"ph", t:"Maya", f:"Portraits", c:"Self-initiated", imgs:9,
+       imgFiles: ["14","16","2","22","24","29","30","8","9"].map(n => `images/Photography/Maya/maya-${n}.webp`),
+       imgRatios: [0.66625,0.8,0.8,0.66625,0.8,0.8,0.66625,0.666875,0.66625],
+       n:"Placeholder. Replace with the actual scope.", cr:"Photography"}
     ]
   },
   {
@@ -988,7 +996,36 @@ const ARCHIVE_IMGS = [
   "images/Archive/Random/longexpo-7.webp",
   "images/Archive/Random/portico-house-flight-club-deck-image.webp",
   "images/Archive/Random/portico-house-flight-club-image-03.webp",
-  "images/Archive/Random/portico-house-flight-club-image-14.webp"
+  "images/Archive/Random/portico-house-flight-club-image-14.webp",
+  ...[1,2,3,4,5].map(n => `images/Archive/Samira/Samiral-double-expo-${n}.webp`),
+  "images/Archive/Random/Adidas_barneys.webp",
+  "images/Archive/Random/Cali_-2.webp",
+  "images/Archive/Random/Cali_.webp",
+  "images/Archive/Random/HIghsnob_party.webp",
+  "images/Archive/Random/Headphone_buyers_guide.webp",
+  "images/Archive/Random/Highsnob Party.webp",
+  "images/Archive/Random/IMG_1958.webp",
+  "images/Archive/Random/Kelly-LV-highsnobiety-IG-2.webp",
+  "images/Archive/Random/Kelly-LV-highsnobiety-IG-4.webp",
+  "images/Archive/Random/Louie-insta.webp",
+  "images/Archive/Random/SKY-BK-2017.webp",
+  "images/Archive/Random/Untitled-10 copy.webp",
+  "images/Archive/Random/Untitled-11 4.webp",
+  "images/Archive/Random/Untitled-2244.webp",
+  "images/Archive/Random/Untitled-363334.webp",
+  "images/Archive/Random/Untitled-39 5.webp",
+  "images/Archive/Random/Untitled-5 4.webp",
+  "images/Archive/Random/Untitled-5 copy.webp",
+  "images/Archive/Random/city 2.webp",
+  "images/Archive/Random/coney_island 2.webp",
+  "images/Archive/Random/gala_nyc.webp",
+  "images/Archive/Random/joji.webp",
+  "images/Archive/Random/juju.webp",
+  "images/Archive/Random/nyc_city.webp",
+  "images/Archive/Random/snow_nyc.webp",
+  "images/Archive/Random/sole_fly_george.webp",
+  "images/Archive/Random/sunset block.webp",
+  "images/Archive/Random/warhol.ss-double-expo.webp"
 ];
 const ARCHIVE_RATIOS = [
   0.6669,1.4995,0.6669,
@@ -1002,7 +1039,11 @@ const ARCHIVE_RATIOS = [
   1.5094,
   0.81625,0.8,0.81625,0.81625,0.81625,0.81625,0.81625,0.81625,0.81625,
   0.666875,0.666875,0.666875,0.666875,
-  0.8,0.8,0.79875,0.798125,0.8,1.77778,1.77778,0.815625,0.8,1.77778,1.77778,1.49953
+  0.8,0.8,0.79875,0.798125,0.8,1.77778,1.77778,0.815625,0.8,1.77778,1.77778,1.49953,
+  0.666875,0.666875,0.666875,0.666875,0.666875,
+  0.666875,0.666875,0.666875,0.8,1.49953,0.666875,1.49953,0.666875,0.8,0.6675,0.6675,
+  0.666875,0.666875,0.8,0.666875,0.666875,0.66625,0.8,
+  1.49953,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.75,0.8
 ];
 /* shuffled once per page load -- no fixed order, no grouping by shoot */
 const shuffle = arr => {
