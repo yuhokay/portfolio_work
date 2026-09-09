@@ -160,6 +160,13 @@ button.mail{background:none;border:0;border-bottom:1px solid var(--rule);padding
 .frag.on{opacity:1}
 .frag.front,.frag.behind{z-index:1}   /* nothing crosses in front of the name */
 
+/* on desktop this wrapper is invisible to layout -- .cols and .panels stay
+   exactly as they were, aligned by sharing the same column tracks. On mobile
+   it becomes the flex container that lets a section's name/description and
+   its image interleave in source order instead of appearing as two separate
+   stacked lists (see the media queries below) */
+.colspanels{display:contents}
+
 /* five column index */
 .cols{
   display:grid;grid-template-columns:var(--tracks);
@@ -487,14 +494,28 @@ button.f:hover{opacity:.85}
 
 /* ---------- mobile ---------- */
 @media(max-width:900px){
-  .cols{grid-template-columns:repeat(2,1fr);grid-template-rows:none;row-gap:26px;column-gap:var(--gut);padding:16px var(--gut) 20px}
-  /* below 900px .col can no longer stay pinned to the same 3-row span used for the
-     5-column subgrid trick, or the grid can't wrap items into new rows and instead
-     invents extra implicit columns, squeezing them into the width unevenly */
-  .col,.col:first-child,.col:last-child{padding:0;grid-row:auto;display:block}
+  /* .cols and .panels each go display:contents so their buttons become direct
+     flex items of .colspanels -- that's what lets a section's name/desc/list
+     sit immediately above its own image instead of every text block appearing
+     before every image */
+  .colspanels{display:flex;flex-direction:column}
+  .cols,.panels{display:contents}
+  .col,.col:first-child,.col:last-child{
+    grid-row:auto;display:block;margin:0 var(--gut);
+    padding:22px 0 18px;border-top:1px solid var(--rule);
+  }
+  .col:first-of-type{order:1;border-top:0;padding-top:16px}
+  .panel:nth-of-type(1){order:2}
+  .col:nth-of-type(2){order:3}
+  .panel:nth-of-type(2){order:4}
+  .col:nth-of-type(3){order:5}
+  .panel:nth-of-type(3){order:6}
+  .col:nth-of-type(4){order:7}
+  .panel:nth-of-type(4){order:8}
+  .col:nth-of-type(5){order:9}
+  .panel:nth-of-type(5){order:10}
   .colname,.coldesc{white-space:normal}
-  .panels{grid-template-columns:1fr 1fr;height:auto}
-  .panel{aspect-ratio:4/5}
+  .panel{aspect-ratio:4/5;width:100%}
   .panels:hover .panel{opacity:1}
   .panelcap{opacity:1;transform:none}
   .archivegrid{columns:2}
@@ -506,8 +527,6 @@ button.f:hover{opacity:.85}
   .aboutbio{grid-template-columns:1fr}
   .aboutart{max-width:220px;justify-self:start;align-self:start;transform:none}
   .fact{grid-template-columns:78px 1fr;gap:10px}
-  .cols{grid-template-columns:1fr;row-gap:22px}
-  .panels{grid-template-columns:1fr;height:auto}
   .panel{width:100%;aspect-ratio:16/10}
   .secbelow{grid-template-columns:1fr}
   .secmeta{justify-self:start;text-align:left}
@@ -895,20 +914,22 @@ const home = `
         <p class="stagestate">I direct campaigns, commercials, album covers &amp; editorials.</p>
       </div>
     </div>
-    <div class="cols">
-      ${SECTIONS.map(s => `
-        <button class="col" data-go="${s.id}">
-          <span class="colname">${esc(s.name)}</span>
-          <span class="coldesc">${esc(s.desc)}</span>
-          <ul class="collist">${s.disciplines.map(d => `<li>${esc(d)}</li>`).join("")}</ul>
-        </button>`).join("")}
-    </div>
-    <div class="panels">
-      ${SECTIONS.map((s,si) => `
-        <button class="panel" data-go="${s.id}" aria-label="${esc(s.name)}">
-          <span class="fr on" style="${frameStyle(PANEL_IMGS[si], si)}"></span>
-          <span class="panelcap">${esc(s.name)}</span>
-        </button>`).join("")}
+    <div class="colspanels">
+      <div class="cols">
+        ${SECTIONS.map(s => `
+          <button class="col" data-go="${s.id}">
+            <span class="colname">${esc(s.name)}</span>
+            <span class="coldesc">${esc(s.desc)}</span>
+            <ul class="collist">${s.disciplines.map(d => `<li>${esc(d)}</li>`).join("")}</ul>
+          </button>`).join("")}
+      </div>
+      <div class="panels">
+        ${SECTIONS.map((s,si) => `
+          <button class="panel" data-go="${s.id}" aria-label="${esc(s.name)}">
+            <span class="fr on" style="${frameStyle(PANEL_IMGS[si], si)}"></span>
+            <span class="panelcap">${esc(s.name)}</span>
+          </button>`).join("")}
+      </div>
     </div>
     <div class="ticker">
       <span class="tickerlab">Selected clients</span>
