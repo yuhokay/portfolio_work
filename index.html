@@ -796,6 +796,34 @@ const SECTIONS = [
       {r:"ph", t:"Pierre Bourne", f:"Editorial", c:"Highsnobiety", imgs:18,
        imgFiles: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18].map(n => `images/Highsnobiety/Pierre Bourne/2019_Feature_Pi_erre_Bourne_BryanLuna-${n}.webp`),
        imgRatios: [0.66,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,1.49953,0.666875,1.49953,0.666875,0.666875],
+       n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
+      {r:"ph", t:"Sneakers", f:"Editorial", c:"Highsnobiety", imgs:49,
+       imgFiles: [
+         "2-chainz-sneaker-versace_-11","2019_Bristol_Adidas_Sneakers_BryanLuna-4","2019_Gucci_Sneakers_BryanLuna-6",
+         "2019_Sneaker_Nike_Shox_Comme_Des_Garcons_BryanLuna-7","2019_Sneakers_Adidas_Pride_Pack_BryanLuna-15","2019_Sneakers_Adidas_Pride_Pack_BryanLuna-29",
+         "2019_Sneakers_Nike_270_React_BryanLuna-1","2019_Sneakers_Nike_270_React_BryanLuna-26","2019_Sneakers_Nike_Betrue_BryanLuna-27",
+         "2019_Sneakers_Nike_Off_White_Zoom_Terra_BryanLuna-5","2019_Sneakers_Nike_Undercover_Waffle_BryanLuna-6","2019_Tadahiro_Sneaker_Museum_BryanLuna-7",
+         "Adidas_barneys","DJ_black_coffee_flight_club_8","Jordan-off-white-highsnobiety-8","MARGIELA_sneakers-10","NYFWM-Sneakers-SS18-11",
+         "Puma-cell-IG-highsnobiety-1","Puma_The_Clyde-22","Puma_red_sneakers-5","Reekbok-alien-stomper-highsnobiety-4","Sole_fly_jordans-1","Vans_opening_ceremony-19",
+         "adidas-alex-wang-sneakers-highsnobiety-01","adidas-recycle-shoe-highsnobiety-13","air-jordan-1s-royals-7","allbirds-sneakers-highsnobiety-40","bape-adidas-sneakers",
+         "huarache_finish_line-5","instagram-popcorn-ig-10","jeff-top-10-sneakers-2018-5","jordan_test_drive-3","neon_nike_air_max-3",
+         "new-balance-insta-4","new-balance-lifestyle-on-foot-17","new-balance-lifestyle-on-foot-36","nike-sneakers-highsnobiety",
+         "off-white-nike-foam-highsnobiety-4","off-white-nike-foam-highsnobiety","puma-cell-endura-sponsored-10","puma-sponsored-highsnobiety-16","puma-sponsored-highsnobiety-40",
+         "test-shoot-book-13","test-shoot-book-2","test_shot_01","timberland-highsnob-11","timberland-highsnob-9","under_armour_kicks-10","valentine-day-guide-highsnobiety-4"
+       ].map(n => `images/Highsnobiety/Sneakers/${n}.webp`),
+       imgRatios: [
+         1.49953,0.666875,0.66625,
+         0.66625,0.6675,0.6675,
+         0.8,0.666875,1.49953,
+         1.49953,1.49953,1.49953,
+         1.49953,1.49813,1.49953,1.49953,1.49813,
+         0.8,1.49813,1.49813,0.8,1.49813,1.49813,
+         1.49953,1.49953,0.8,0.666875,0.666875,
+         1.49813,0.8,1.49953,1.49813,1.49813,
+         0.8,1.49953,1.49953,1.49813,
+         1.49953,1.49953,0.666875,1.49953,1.49953,
+         0.66625,0.66625,1.49953,1.49953,1.49953,1.49813,1.49953
+       ],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"}
     ]
   },
@@ -1100,7 +1128,9 @@ const ARCHIVE_IMGS = [
   "images/Archive/Random/we-got-now-12.webp",
   "images/Archive/Random/we-got-now-2.webp",
   "images/Archive/Random/we-got-now-3.webp",
-  "images/Archive/Random/young-nudy-highsnobiety-bryan-luna.webp"
+  "images/Archive/Random/young-nudy-highsnobiety-bryan-luna.webp",
+  "images/Archive/Random/enteresant-2.webp",
+  "images/Archive/Random/enteresant-3.webp"
 ];
 const ARCHIVE_RATIOS = [
   0.6669,1.4995,0.6669,
@@ -1126,7 +1156,8 @@ const ARCHIVE_RATIOS = [
   0.666875,1.49953,0.865,0.8,0.663125,1.50801,0.663125,
   0.663125,1.50801,0.66625,0.666875,0.666875,0.8,1,0.8,
   1.49953,0.8,0.666875,0.6625,0.663125,1.49953,1.49953,
-  0.666875,0.8,0.8,0.8,0.8,1.50801,0.663125,0.663125,0.8
+  0.666875,0.8,0.8,0.8,0.8,1.50801,0.663125,0.663125,0.8,
+  0.666875,0.666875
 ];
 /* shuffled once per page load -- no fixed order, no grouping by shoot */
 const shuffle = arr => {
