@@ -686,7 +686,22 @@ const SECTIONS = [
     disciplines:["Photography","Editorial","Books","Video","Production"],
     work:[
       {r:"ph", t:"Issue 18, Danny Brown", f:"Cover", c:"Highsnobiety", imgs:5, bannerImg:"images/Highsnobiety/Banner/PierreBourne_Banner.webp", bannerPos:"12%", n:"Shot during my time as the magazine's staff photographer.", cr:"Photography"},
-      {r:"ph", t:"Print", f:"Book", c:"Highsnobiety / Gestalten", imgs:1, n:"The New Luxury: Defining the Aspirational in the Age of Hype, published by Gestalten.", cr:"Single image"},
+      {r:"ph", t:"Print", f:"Book", c:"Highsnobiety / Gestalten", imgs:19,
+       imgFiles: [
+         "2019_Highsnobiety_New_Luxury_Book_Images_BryanLuna-4","2019_Highsnobiety_New_Luxury_Book_Images_BryanLuna-5","2019_Highsnobiety_New_Luxury_Book_Images_BryanLuna",
+         "highsnobiety-book","highsnobiety-book-17","issue-18-magazine-social-54","issue-18-magazine-social-18",
+         "Daniel-Arsham-HNSO2-28","Daniel-Arsham-HNSO2-7","Danny-Brown-Scan-02","Danny-Brown-Scan-13","danny-brown-makes-home-10",
+         "HSNO2-Profile-Larry-Wash-17","HSNO2-Profile-Larry-Wash","HSNO2-Profile-Ronnie-Fieg-11","HSNO2-Profile-Ronnie-Fieg-4",
+         "HSNO2-Profile-Upscale-Vandal-12","HSNO2-Profile-Upscale-Vandal-22","HSNO2-Profile-Upscale-Vandal-23"
+       ].map(n => `images/Highsnobiety/Print/Finals/${n}.webp`),
+       imgRatios: [
+         1.49953,1.49953,1.49953,
+         1.49953,1.49953,0.666875,0.8,
+         0.666875,0.666875,0.665625,1.49533,0.666875,
+         0.666875,0.666875,1.49953,0.666875,
+         0.666875,0.666875,0.666875
+       ],
+       n:"The New Luxury: Defining the Aspirational in the Age of Hype, published by Gestalten.", cr:"Photography"},
       {r:"ph", t:"Commercial / Editorial", f:"Editorial", c:"Highsnobiety", imgs:69,
        imgFiles: [
          "2019_Auri_Soundsystem_BryanLuna-9","2019_Bape_X_Swatch_Case_Study_BryanLuna-17","2019_Feature_Marcus_Paul_BryanLuna-2",
