@@ -1569,6 +1569,12 @@ main.addEventListener("click", e => {
   if (btn) openLightbox(btn);
 });
 lightbox.addEventListener("click", closeLightbox);
+// draggable="false" and -webkit-user-drag:none don't reliably stop every
+// browser from starting a native image-drag gesture on the slightest mouse
+// movement -- when that happens the click that should close the lightbox
+// never fires. Blocking it at mousedown is the one thing that reliably
+// prevents the drag from ever starting, so the click always goes through.
+lightboxImg.addEventListener("mousedown", e => e.preventDefault());
 lightbox.querySelector(".prev").addEventListener("click", e => {
   e.stopPropagation();
   showLightboxAt(lightboxIndex - 1);
