@@ -1020,7 +1020,7 @@ const interleaveByOrientation = (files, ratios) => {
   }
   return order;
 };
-const SHUFFLED_ROWS = ["Commercial / Editorial", "Sneakers", "Music", "Interiors"];
+const SHUFFLED_ROWS = ["Commercial / Editorial", "Sneakers", "Music", "Interiors", "Campaign 1", "Campaign 2", "Editorials", "Gravedigger Shirt Editorial"];
 SECTIONS.forEach(s => s.work.forEach(w => {
   if (SHUFFLED_ROWS.includes(w.t) && w.imgFiles) {
     const order = interleaveByOrientation(w.imgFiles, w.imgRatios);
