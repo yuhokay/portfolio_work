@@ -948,10 +948,36 @@ const shuffle = arr => {
   }
   return a;
 };
+/* alternates portrait/landscape frames instead of a plain shuffle, so the
+   rail reads as a back-and-forth of crops rather than random clumps of the
+   same orientation. when one orientation outnumbers the other, the minority
+   is spread evenly across the run instead of being exhausted early and
+   leaving a long same-orientation tail. */
+const interleaveByOrientation = (files, ratios) => {
+  const idx = files.map((_, i) => i);
+  const portrait = shuffle(idx.filter(i => ratios[i] < 1));
+  const landscape = shuffle(idx.filter(i => ratios[i] >= 1));
+  const [minority, majority] = portrait.length <= landscape.length ? [portrait, landscape] : [landscape, portrait];
+  const total = minority.length + majority.length;
+  const order = new Array(total);
+  if (minority.length > 0) {
+    const step = total / minority.length;
+    for (let k = 0; k < minority.length; k++) {
+      let pos = Math.min(total - 1, Math.round(k * step + step / 2));
+      while (order[pos] !== undefined) pos = (pos + 1) % total;
+      order[pos] = minority[k];
+    }
+  }
+  let mi = 0;
+  for (let p = 0; p < total; p++) {
+    if (order[p] === undefined) order[p] = majority[mi++];
+  }
+  return order;
+};
 const SHUFFLED_ROWS = ["Commercial / Editorial", "Sneakers", "Music", "Interiors"];
 SECTIONS.forEach(s => s.work.forEach(w => {
   if (SHUFFLED_ROWS.includes(w.t) && w.imgFiles) {
-    const order = shuffle(w.imgFiles.map((_, i) => i));
+    const order = interleaveByOrientation(w.imgFiles, w.imgRatios);
     w.imgFiles = order.map(i => w.imgFiles[i]);
     w.imgRatios = order.map(i => w.imgRatios[i]);
   }
