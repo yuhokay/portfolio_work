@@ -634,12 +634,12 @@ const SECTIONS = [
        imgFiles: ["LanMai","Lan_Mai_Finals_JPEGs","Lan_Mai_Finals_JPEGs-2","Lan_Mai_Finals_JPEGs-3","Lan_Mai_Finals_JPEGs-4","Lan_Mai_Finals_JPEGs-5","Lan_Mai_Finals_JPEGs-6","Lan_Mai_Finals_JPEGs-7","Lan_Mai_Finals_JPEGs-8","Lan_Mai_Finals_JPEGs-9","Lan_Mai_Finals_JPEGs-10","Lan_Mai_Finals_JPEGs-11","Lan_Mai_Finals_JPEGs-12","Lan_Mai_Finals_JPEGs-13","Lan_Mai_Finals_JPEGs-14"].map(n => `images/Portico House/Lan Mai Campaign/${n}.webp`),
        imgRatios: [0.704375,0.69875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875,0.666875],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
-      {r:"cd", t:"Album Covers", f:"Cover art", c:"Independent", imgs:4,
+      {r:"cd", t:"Album Covers", f:"Cover art", c:"Independent", imgs:6,
        imgFiles: [
-         "AJRadico_Say_It_Again_01","AJRadico_Say_It_Again_02",
+         "AJRadico_Say_It_Again_01","AJRadico_Say_It_Again_02","AJRadico_Transit_01","AJRadico_Transit_02",
          "1of1Soldier_Final_01","1of1Soldier_Final_02"
        ].map(n => `images/Portico House/Album Covers/${n}.webp`),
-       imgRatios: [1,1,1,1.00063],
+       imgRatios: [1,1,1,1,1,1.00063],
        n:"Placeholder. Replace with the actual scope.", cr:"Creative direction"},
       {r:"cd", t:"Creative Bureau Editorial", f:"Editorial", c:"Portico House", imgs:12,
        imgFiles: ["01","02","03","04","05","06","07","08","09","10","11","cover_option_2"].map(n => `images/Portico House/Creative Bureau Editorial/George_Portico_House_Editorial_${n}.webp`),
@@ -914,18 +914,13 @@ const SECTIONS = [
          .concat(["2","3","4","5","6","7","8","9","10","11","13","14","15","16","17","18","20","21","22","23","24","25","26","27","28","29","31","33"].map(n => `images/Photography/Jessica/Jessica_Finals-${n}.webp`)),
        imgRatios: [0.8,0.8,0.8,0.8,0.799375,0.8,0.8, 0.8, 0.8,0.8,0.666875,0.7725,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
-      {r:"ph", t:"AJ Radico, Transit Album Cover", f:"Creative shoot", c:"Self-initiated", imgs:10,
-       imgFiles: ["1","2","3","4"].map(n => `images/Photography/AJRadico - Transit Album Cover/${n}.webp`)
-         .concat(["03","04","05","06","07","08"].map(n => `images/Photography/AJRadico - Transit Album Cover/AJRadico-EP-Cover-Shoot-${n}.webp`)),
-       imgRatios: [1,1,1,1,1,1,1,1,1,1],
-       n:"Placeholder. Replace with the actual scope.", cr:"Creative direction, photography"},
-      {r:"ph", t:"Maya", f:"Portraits", c:"Self-initiated", imgs:9,
-       imgFiles: ["14","16","2","22","24","29","30","8","9"].map(n => `images/Photography/Maya/maya-${n}.webp`),
-       imgRatios: [0.66625,0.8,0.8,0.66625,0.8,0.8,0.66625,0.666875,0.66625],
+      {r:"ph", t:"Maya", f:"Portraits", c:"Self-initiated", imgs:7,
+       imgFiles: ["14","2","22","24","29","30","9"].map(n => `images/Photography/Maya/maya-${n}.webp`),
+       imgRatios: [0.66625,0.8,0.66625,0.8,0.8,0.66625,0.66625],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
-      {r:"ph", t:"Long Exposure", f:"Creative shoot", c:"Self-initiated", imgs:15,
-       imgFiles: ["Alani-final","Scan 21","dela","ig-image","lexie-highsnobiety","longexpo-10","longexpo-2","longexpo-3","longexpo-4","longexpo-5","longexpo-6","longexpo-8","longexpo-9","longexpo","val"].map(n => `images/Photography/Longexpo/${n}.webp`),
-       imgRatios: [0.8,0.8,0.8,0.794375,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.666875,0.666875,0.799375],
+      {r:"ph", t:"Long Exposure", f:"Creative shoot", c:"Self-initiated", imgs:17,
+       imgFiles: ["Alani-final","Scan 21","dela","ig-image","lexie-highsnobiety","longexpo-10","longexpo-2","longexpo-3","longexpo-4","longexpo-5","longexpo-6","longexpo-8","longexpo-9","longexpo","val","maya-16","maya-8"].map(n => `images/Photography/Longexpo/${n}.webp`),
+       imgRatios: [0.8,0.8,0.8,0.794375,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.666875,0.666875,0.799375,0.8,0.666875],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"}
     ]
   },
@@ -1293,7 +1288,8 @@ const ARCHIVE_IMGS = [
   "images/Archive/Random/we-got-now-3.webp",
   "images/Archive/Random/young-nudy-highsnobiety-bryan-luna.webp",
   "images/Archive/Random/enteresant-2.webp",
-  "images/Archive/Random/enteresant-3.webp"
+  "images/Archive/Random/enteresant-3.webp",
+  ...["3","4","AJRadico-EP-Cover-Shoot-03","AJRadico-EP-Cover-Shoot-04","AJRadico-EP-Cover-Shoot-05","AJRadico-EP-Cover-Shoot-06","AJRadico-EP-Cover-Shoot-07","AJRadico-EP-Cover-Shoot-08"].map(n => `images/Archive/AJRadico - Transit Album Cover/${n}.webp`)
 ];
 const ARCHIVE_RATIOS = [
   0.6669,1.4995,0.6669,
@@ -1320,7 +1316,8 @@ const ARCHIVE_RATIOS = [
   0.663125,1.50801,0.66625,0.666875,0.666875,0.8,1,0.8,
   1.49953,0.8,0.666875,0.6625,0.663125,1.49953,1.49953,
   0.666875,0.8,0.8,0.8,0.8,1.50801,0.663125,0.663125,0.8,
-  0.666875,0.666875
+  0.666875,0.666875,
+  1,1,1,1,1,1,1,1
 ];
 /* shuffled once per page load -- no fixed order, no grouping by shoot */
 const archiveOrder = shuffle(ARCHIVE_IMGS.map((_, i) => i));
