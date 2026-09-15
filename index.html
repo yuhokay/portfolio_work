@@ -914,10 +914,6 @@ const SECTIONS = [
          .concat(["2","3","4","5","6","7","8","9","10","11","13","14","15","16","17","18","20","21","22","23","24","25","26","27","28","29","31","33"].map(n => `images/Photography/Jessica/Jessica_Finals-${n}.webp`)),
        imgRatios: [0.8,0.8,0.8,0.8,0.799375,0.8,0.8, 0.8, 0.8,0.8,0.666875,0.7725,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
-      {r:"ph", t:"Maya", f:"Portraits", c:"Self-initiated", imgs:7,
-       imgFiles: ["14","2","22","24","29","30","9"].map(n => `images/Photography/Maya/maya-${n}.webp`),
-       imgRatios: [0.66625,0.8,0.66625,0.8,0.8,0.66625,0.66625],
-       n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
       {r:"ph", t:"Long Exposure", f:"Creative shoot", c:"Self-initiated", imgs:17,
        imgFiles: ["Alani-final","Scan 21","dela","ig-image","lexie-highsnobiety","longexpo-10","longexpo-2","longexpo-3","longexpo-4","longexpo-5","longexpo-6","longexpo-8","longexpo-9","longexpo","val","maya-16","maya-8"].map(n => `images/Photography/Longexpo/${n}.webp`),
        imgRatios: [0.8,0.8,0.8,0.794375,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.666875,0.666875,0.799375,0.8,0.666875],
@@ -1289,7 +1285,8 @@ const ARCHIVE_IMGS = [
   "images/Archive/Random/young-nudy-highsnobiety-bryan-luna.webp",
   "images/Archive/Random/enteresant-2.webp",
   "images/Archive/Random/enteresant-3.webp",
-  ...["3","4","AJRadico-EP-Cover-Shoot-03","AJRadico-EP-Cover-Shoot-04","AJRadico-EP-Cover-Shoot-05","AJRadico-EP-Cover-Shoot-06","AJRadico-EP-Cover-Shoot-07","AJRadico-EP-Cover-Shoot-08"].map(n => `images/Archive/AJRadico - Transit Album Cover/${n}.webp`)
+  ...["3","4","AJRadico-EP-Cover-Shoot-03","AJRadico-EP-Cover-Shoot-04","AJRadico-EP-Cover-Shoot-05","AJRadico-EP-Cover-Shoot-06","AJRadico-EP-Cover-Shoot-07","AJRadico-EP-Cover-Shoot-08"].map(n => `images/Archive/AJRadico - Transit Album Cover/${n}.webp`),
+  ...["14","2","22","24","29","30","9"].map(n => `images/Archive/Maya/maya-${n}.webp`)
 ];
 const ARCHIVE_RATIOS = [
   0.6669,1.4995,0.6669,
@@ -1317,7 +1314,8 @@ const ARCHIVE_RATIOS = [
   1.49953,0.8,0.666875,0.6625,0.663125,1.49953,1.49953,
   0.666875,0.8,0.8,0.8,0.8,1.50801,0.663125,0.663125,0.8,
   0.666875,0.666875,
-  1,1,1,1,1,1,1,1
+  1,1,1,1,1,1,1,1,
+  0.66625,0.8,0.66625,0.8,0.8,0.66625,0.66625
 ];
 /* shuffled once per page load -- no fixed order, no grouping by shoot */
 const archiveOrder = shuffle(ARCHIVE_IMGS.map((_, i) => i));
