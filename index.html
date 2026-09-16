@@ -1322,7 +1322,17 @@ const ARCHIVE_IMGS = [
   "images/Archive/Random/enteresant-2.webp",
   "images/Archive/Random/enteresant-3.webp",
   ...["3","4","AJRadico-EP-Cover-Shoot-03","AJRadico-EP-Cover-Shoot-04","AJRadico-EP-Cover-Shoot-05","AJRadico-EP-Cover-Shoot-06","AJRadico-EP-Cover-Shoot-07","AJRadico-EP-Cover-Shoot-08"].map(n => `images/Archive/AJRadico - Transit Album Cover/${n}.webp`),
-  ...["14","2","22","24","29","30","9"].map(n => `images/Archive/Maya/maya-${n}.webp`)
+  ...["14","2","22","24","29","30","9"].map(n => `images/Archive/Maya/maya-${n}.webp`),
+  ...[
+    "Commercial-2-3","Commercial-2-4","Commercial-2","Commercial-3-5","Commercial-3-6",
+    "Commercial-4-10","Commercial-4-2","Commercial-4-8","Commercial-4-9","Commercial-4",
+    "Deck-Image-01","Deck-Image-02","Gang-Corp-Skating-2","Kelly-16x9",
+    "Mariah_Screen_Test-1","Mariah_Screen_Test-11","Mariah_Screen_Test-3",
+    "TV_SS_Group_One-10","TV_SS_Group_One-11","TV_SS_Group_One-2","TV_SS_Group_One-3","TV_SS_Group_One-4","TV_SS_Group_One-5","TV_SS_Group_One-6","TV_SS_Group_One-7","TV_SS_Group_One-8","TV_SS_Group_One-9",
+    "TV_SS_Group_Three-7","TV_SS_Group_Three-8","TV_SS_Group_Three-9",
+    "TV_SS_Group_Two-10","TV_SS_Group_Two-3","TV_SS_Group_Two-4","TV_SS_Group_Two-5","TV_SS_Group_Two-6","TV_SS_Group_Two-7","TV_SS_Group_Two-8","TV_SS_Group_Two-9","TV_SS_Group_Two",
+    "black-tint-phor-bg","buddy-2","buddy"
+  ].map(n => `images/Archive/Random/${n}.webp`)
 ];
 const ARCHIVE_RATIOS = [
   0.6669,1.4995,0.6669,
@@ -1351,7 +1361,15 @@ const ARCHIVE_RATIOS = [
   0.666875,0.8,0.8,0.8,0.8,1.50801,0.663125,0.663125,0.8,
   0.666875,0.666875,
   1,1,1,1,1,1,1,1,
-  0.66625,0.8,0.66625,0.8,0.8,0.66625,0.66625
+  0.66625,0.8,0.66625,0.8,0.8,0.66625,0.66625,
+  0.561875,0.8,0.561875,0.8,0.8,
+  0.8,0.561875,0.8,0.8,0.8,
+  1.77778,1.77778,1.49953,1.77778,
+  0.666875,0.666875,0.666875,
+  1.77778,1.77778,1.77778,1.77778,1.77778,1.77778,1.77778,1.77778,1.77778,1.77778,
+  1.77778,1.77778,1.77778,
+  1.77778,1.77778,1.77778,1.77778,1.77778,1.77778,1.77778,1.77778,1.77778,
+  1.77778,1.77778,1.77778
 ];
 /* shuffled once per page load -- no fixed order, no grouping by shoot */
 const archiveOrder = shuffle(ARCHIVE_IMGS.map((_, i) => i));
