@@ -654,10 +654,27 @@ const SECTIONS = [
        imgRatios: [0.666875,0.666875,0.666875,1.77778],
        videos: [{id:"1037868188", thumb:"images/Portico House/Ralph Lauren/RalphLauren_Video_Thumb.webp", ratio:1.77778}],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
-      {r:"ph", t:"Coca-Cola", f:"Campaign", c:"via Ogilvy", imgs:4,
+      {r:"ph", t:"Coca-Cola", f:"Campaign", c:"via Ogilvy", imgs:12,
+       imgFiles: [
+         "website-coca-cola","website-coca-cola-2","website-coca-cola-3",
+         "website-coca-cola-4","website-coca-cola-5","website-coca-cola-6",
+         "website-coca-cola-7","website-coca-cola-8","website-coca-cola-9",
+         "website-coca-cola-10","website-coca-cola-11"
+       ].map(n => `images/Portico House/Coca-Cola/${n}.webp`),
+       imgRatios: [
+         1.5,1.498501,1.777251,
+         1.498501,1.498501,1.777251,
+         1.498501,1.777251,1.498501,
+         1.498501,1.5
+       ],
        videos: [{id:"958528868", thumb:"images/Portico House/Coca-Cola/CocaCola_Video_Thumb.webp", ratio:1.77778}],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
-      {r:"ph", t:"American Express", f:"Campaign", c:"Brand", imgs:2,
+      {r:"ph", t:"American Express", f:"Campaign", c:"Brand", imgs:8,
+       imgFiles: [
+         "Edit.00_00_05_01.Still028","Edit.00_00_09_02.Still003","Edit.00_00_22_05.Still007",
+         "edit-7-artsy.00_00_01_01.Still009","edit-7-artsy.00_00_01_21.Still011","edit-7-artsy.00_00_26_21.Still033"
+       ].map(n => `images/Portico House/American Express/${n}.webp`),
+       imgRatios: [1.778094,1.778094,1.778094,1.777778,1.777778,1.777778],
        videos: [
          {id:"1037863448", thumb:"images/Portico House/American Express/AmericanExpress_Video_Thumb.webp", ratio:1.77778},
          {id:"1037863400", thumb:"images/Portico House/American Express/AmericanExpress_Video_Thumb-2.webp", ratio:1.77778}
