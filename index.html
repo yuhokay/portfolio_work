@@ -1697,17 +1697,31 @@ main.addEventListener("click", e => {
   const btn = e.target.closest("button.f[data-full], button.f[data-video]");
   if (btn) openLightbox(btn);
 });
-lightbox.addEventListener("click", closeLightbox);
+// closing on mousedown (not click) matters after a video's played: clicking
+// into the Vimeo/YouTube iframe hands it focus, and the next click outside
+// it gets spent by the browser just returning focus to the document rather
+// than registering as a normal click -- so a "click" listener here needed
+// two clicks to close after watching a video. mousedown fires immediately
+// regardless of that focus handoff, so one click is always enough.
+lightbox.addEventListener("mousedown", closeLightbox);
 // draggable="false" and -webkit-user-drag:none don't reliably stop every
 // browser from starting a native image-drag gesture on the slightest mouse
 // movement -- when that happens the click that should close the lightbox
 // never fires. Blocking it at mousedown is the one thing that reliably
 // prevents the drag from ever starting, so the click always goes through.
 lightboxImg.addEventListener("mousedown", e => e.preventDefault());
+// prev/next/close still act on click so Enter/Space activation from the
+// keyboard keeps working; the mousedown-stopPropagation just keeps a mouse
+// click on them from also triggering the backdrop's mousedown-close above.
+const stopMousedown = e => e.stopPropagation();
+lightbox.querySelector(".lightboxclose").addEventListener("mousedown", stopMousedown);
+lightbox.querySelector(".lightboxclose").addEventListener("click", closeLightbox);
+lightbox.querySelector(".prev").addEventListener("mousedown", stopMousedown);
 lightbox.querySelector(".prev").addEventListener("click", e => {
   e.stopPropagation();
   showLightboxAt(lightboxIndex - 1);
 });
+lightbox.querySelector(".next").addEventListener("mousedown", stopMousedown);
 lightbox.querySelector(".next").addEventListener("click", e => {
   e.stopPropagation();
   showLightboxAt(lightboxIndex + 1);
