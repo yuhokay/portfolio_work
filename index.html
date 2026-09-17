@@ -662,6 +662,9 @@ const SECTIONS = [
          {id:"1037863448", thumb:"images/Portico House/American Express/AmericanExpress_Video_Thumb.webp", ratio:1.77778},
          {id:"1037863400", thumb:"images/Portico House/American Express/AmericanExpress_Video_Thumb-2.webp", ratio:1.77778}
        ],
+       n:"Placeholder. Replace with the actual scope.", cr:"Photography"},
+      {r:"ph", t:"Nakel Documentary", f:"Documentary", c:"Highsnobiety", imgs:1,
+       videos: [{id:"7GzjwvLf8b4", provider:"youtube", thumb:"images/Portico House/Nakel Documentary/Nakel_Documentary_Video_Thumb.webp", ratio:1.77778}],
        n:"Placeholder. Replace with the actual scope.", cr:"Photography"}
     ]
   },
@@ -1243,7 +1246,7 @@ const views = SECTIONS.map((s, si) => {
               const vidIdx = vidsFirst ? fi : fi - (w.imgFiles ? w.imgFiles.length : 0);
               if (w.imgFiles && w.imgFiles[fileIdx]) return `<button class="f" data-full="${w.imgFiles[fileIdx]}" aria-label="View full size" style="aspect-ratio:${w.imgRatios[fileIdx]};background-image:url('${w.imgFiles[fileIdx]}');background-size:contain;background-repeat:no-repeat;background-position:center"></button>`;
               const v = w.videos && w.videos[vidIdx];
-              if (v) return `<button class="f video" data-video="${v.id}" aria-label="Play video" style="aspect-ratio:${v.ratio};background-image:url('${v.thumb}');background-size:contain;background-repeat:no-repeat;background-position:center"><span class="playicon" aria-hidden="true"></span></button>`;
+              if (v) return `<button class="f video" data-video="${v.id}" data-provider="${v.provider || "vimeo"}" aria-label="Play video" style="aspect-ratio:${v.ratio};background-image:url('${v.thumb}');background-size:contain;background-repeat:no-repeat;background-position:center"><span class="playicon" aria-hidden="true"></span></button>`;
               return `<div class="f"></div>`;
             }).join("")}
           </div>
@@ -1601,9 +1604,10 @@ const lightboxImg = lightbox.querySelector("img");
 const lightboxVideo = lightbox.querySelector(".lightboxvideo");
 let lightboxList = [];
 let lightboxIndex = -1;
-// each item is either {full} for a photo or {video} for a Vimeo id -- the
-// group can mix both, e.g. a video thumbnail alongside real photos in a rail
-const itemFor = btn => btn.dataset.video ? {video: btn.dataset.video} : {full: btn.dataset.full};
+// each item is either {full} for a photo or {video, provider} for a Vimeo/
+// YouTube id -- the group can mix both, e.g. a video thumbnail alongside
+// real photos in a rail
+const itemFor = btn => btn.dataset.video ? {video: btn.dataset.video, provider: btn.dataset.provider} : {full: btn.dataset.full};
 function showLightboxAt(i){
   if (!lightboxList.length) return;
   lightboxIndex = (i + lightboxList.length) % lightboxList.length;
@@ -1612,7 +1616,9 @@ function showLightboxAt(i){
     lightboxImg.style.display = "none";
     lightboxImg.src = "";
     lightboxVideo.style.display = "block";
-    lightboxVideo.src = `https://player.vimeo.com/video/${item.video}?autoplay=1&title=0&byline=0&portrait=0`;
+    lightboxVideo.src = item.provider === "youtube"
+      ? `https://www.youtube.com/embed/${item.video}?autoplay=1&rel=0`
+      : `https://player.vimeo.com/video/${item.video}?autoplay=1&title=0&byline=0&portrait=0`;
   } else {
     lightboxVideo.style.display = "none";
     lightboxVideo.src = "";
