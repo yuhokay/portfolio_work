@@ -405,7 +405,7 @@ button.f:hover{opacity:.85}
   border-color:transparent transparent transparent #fff;
 }
 
-.row.bleed .bleedhit{display:block;width:100%;background:none;border:0;padding:0;color:inherit;cursor:pointer;position:relative;text-align:left}
+.row.bleed .bleedhit{display:block;width:100%;position:relative}
 .bleedimg{width:100%;aspect-ratio:21/9;background:var(--strip);background-image:repeating-linear-gradient(135deg,rgba(120,120,120,.13) 0 1px,transparent 1px 9px);position:relative}
 .bleedcaption{position:absolute;right:var(--gut);bottom:14px;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.55)}
 
@@ -1260,10 +1260,9 @@ const views = SECTIONS.map((s, si) => {
     </div>
     ${s.work.map((w,i) => i === 0 ? `
       <article class="row bleed" id="${w.id}">
-        <button class="bleedhit" aria-expanded="false">
+        <div class="bleedhit">
           <div class="bleedimg"${w.bannerImg ? ` style="background-image:url('${w.bannerImg}');background-size:cover;background-position:center ${w.bannerPos || "50%"}"` : ""}>${w.bannerCaption ? `<span class="bleedcaption">${esc(w.bannerCaption)}</span>` : ""}</div>
-        </button>
-        <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
+        </div>
       </article>` : `
       <article class="row" id="${w.id}">
         <button class="head" aria-expanded="false">
@@ -1620,14 +1619,14 @@ document.querySelectorAll(".strip.rail").forEach(rail => {
 
 /* ---------- rows ---------- */
 main.addEventListener("click", e => {
-  const hit = e.target.closest(".head,.bleedhit");
+  const hit = e.target.closest(".head");
   if (!hit) return;
   const row = hit.closest(".row");
   const sec = row.closest(".view");
   sec.querySelectorAll(".row.open").forEach(r => {
     if (r === row) return;
     r.classList.remove("open");
-    r.querySelector(".head,.bleedhit").setAttribute("aria-expanded","false");
+    r.querySelector(".head").setAttribute("aria-expanded","false");
   });
   hit.setAttribute("aria-expanded", row.classList.toggle("open"));
 });
