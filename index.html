@@ -406,8 +406,8 @@ button.f:hover{opacity:.85}
 }
 
 .row.bleed .bleedhit{display:block;width:100%;background:none;border:0;padding:0;color:inherit;cursor:pointer;position:relative;text-align:left}
-.bleedimg{width:100%;aspect-ratio:21/9;background:var(--strip);background-image:repeating-linear-gradient(135deg,rgba(120,120,120,.13) 0 1px,transparent 1px 9px)}
-.bleedbar{display:grid;grid-template-columns:1fr auto;gap:6px var(--gut);align-items:baseline;padding:11px var(--gut) 12px}
+.bleedimg{width:100%;aspect-ratio:21/9;background:var(--strip);background-image:repeating-linear-gradient(135deg,rgba(120,120,120,.13) 0 1px,transparent 1px 9px);position:relative}
+.bleedcaption{position:absolute;right:var(--gut);bottom:14px;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.55)}
 
 .more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .34s cubic-bezier(.3,.8,.3,1)}
 .row.open .more{grid-template-rows:1fr}
@@ -692,7 +692,7 @@ const SECTIONS = [
     note:"A music and culture platform I co-founded. Long-form features on artists, written and shot the way we'd want to be covered ourselves.",
     disciplines:["Editorial Direction","Creative Direction","Production","Video","Platform"],
     work:[
-      {r:"cd", t:"Artist features", f:"Editorial", c:"Flok", imgs:6, bannerImg:"images/Flok/Banner/AJRadico_Cover_Story_19.webp", bannerPos:"18%", n:"Placeholder. Long-form features in Flok's cinematic, narrative voice.", cr:"Editorial direction"},
+      {r:"cd", t:"Artist features", f:"Editorial", c:"Flok", imgs:6, bannerImg:"images/Flok/Banner/AJRadico_Cover_Story_19.webp", bannerPos:"18%", bannerCaption:"AJRADICO", n:"Placeholder. Long-form features in Flok's cinematic, narrative voice.", cr:"Editorial direction"},
       {r:"cd", t:"1of1Soldier", f:"Editorial", c:"Flok", imgs:8,
        imgFiles: ["01","02","03","04&5","06","07","09","10"].map(n => `images/Flok/1of1Soldier/1of1Soldier_Flok_Cover_${n}.webp`),
        imgRatios: [0.800625,0.800625,0.8,1.49813,0.8,0.8,0.800625,0.8],
@@ -1261,9 +1261,8 @@ const views = SECTIONS.map((s, si) => {
     ${s.work.map((w,i) => i === 0 ? `
       <article class="row bleed" id="${w.id}">
         <button class="bleedhit" aria-expanded="false">
-          <div class="bleedimg"${w.bannerImg ? ` style="background-image:url('${w.bannerImg}');background-size:cover;background-position:center ${w.bannerPos || "50%"}"` : ""}></div>
+          <div class="bleedimg"${w.bannerImg ? ` style="background-image:url('${w.bannerImg}');background-size:cover;background-position:center ${w.bannerPos || "50%"}"` : ""}>${w.bannerCaption ? `<span class="bleedcaption">${esc(w.bannerCaption)}</span>` : ""}</div>
         </button>
-        <div class="bleedbar"><span class="title">${esc(w.t)}</span>${metaLine(w, {noFrames:true})}</div>
         <div class="more"><div><div class="note">${esc(w.n)}<div class="credit">${esc(w.cr)}</div></div></div></div>
       </article>` : `
       <article class="row" id="${w.id}">
